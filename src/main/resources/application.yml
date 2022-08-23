@@ -5,7 +5,7 @@ spring:
         max-file-size: 50MB
         max-request-size: 50MB
   datasource:
-    url: jdbc:postgresql://localhost:5432/skill_app
+    url: jdbc:postgresql://localhost:5432/novalib
     username: postgres
     password: 1111
     driver-class-name: org.postgresql.Driver

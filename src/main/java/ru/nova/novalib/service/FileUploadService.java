@@ -19,21 +19,29 @@ public class FileUploadService {
     @Value("${upload.path}")
     private String uploadPath;
 
-    public void saveFile(MultipartFile multipartFile){
-        if(multipartFile != null){
-            String resultFilename =  UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
+    public Book saveFile(MultipartFile multipartFile){
+        Book book = new Book();
+        if(multipartFile != null) {
+            saveAndConvertInBook(multipartFile, book);
+        }else{
+            //TODO Exeption
+        }
+
+        return book;
+    }
+
+    private void saveAndConvertInBook(MultipartFile multipartFile, Book book) {
+            String resultFilename =  UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
             try {
                 File file = new File(uploadPath + "/" + resultFilename);
                 if(!file.exists()){
                     file.mkdir();
                 }
                 multipartFile.transferTo(file);
-                Book book = new Book();
                 book.setFileName(resultFilename);
                 epubConverter.converter(book);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
     }
 }
