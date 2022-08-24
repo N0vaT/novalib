@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Панель администратора</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-xxl">
+    <div class="col-12 text-center">
+        <img th:src="@{images/bibl.jpg}"  class="img-fluid max-width: 100% height: auto" >
+    </div>
+    <div class="row gx-10">
+        <div class="col-3">
+            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 325px;">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <span class="fs-3">Панель управления</span>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" aria-current="page">
+                            Управление книгами
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link link-dark">
+                            Управление участниками
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link link-dark">
+                            Статистика
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </div>
+
+        <div class="col-9">
+
+                <div class="mb-3">
+                    <form method="post" enctype="multipart/form-data">
+                    <label class="form-label"><strong>Загрузка новой книги </strong><mark>(.ePub)</mark></label>
+                    <br/>
+                    <input class="form-control" type="file" name="file">
+                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                    <br/>
+                    <button type="submit" class="btn btn-primary mb-3">Добавить</button>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

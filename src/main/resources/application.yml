@@ -18,8 +18,10 @@ spring:
   thymeleaf:
     prefix: file:src/main/resources/templates/
     cache: false
+  resources:
+    add-mappings: true
 server:
   port: 8080
 
 upload:
-  path: D:/novalib_upload/
+  path: D:\Project\novalib\src\main\resources\static\upload\

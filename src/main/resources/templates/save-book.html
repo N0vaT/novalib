@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Панель администратора</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-xxl">
+    <div class="row gx-10">
+        <div class="col-12">
+            <form method="post" th:action="@{/admin/books/save}" th:object="${book}">
+
+                <span class="input-group-text">Введите название книги:</span>
+                <input type="text" class="form-control" placeholder="Название" th:field="*{title}">
+                <br/>
+                <span class="input-group-text">Введите имя автора:</span>
+                <input type="text" class="form-control" placeholder="Автор">
+                <br/>
+                <span class="input-group-text">Введите издательство:</span>
+                <input type="text" class="form-control" placeholder="Издательство" th:field="*{publisher}">
+                <br/>
+                <span class="input-group-text">Введите дату релиза:</span>
+                <input type="date" class="form-control" placeholder="Дата релиза">
+                <br/>
+                <span class="input-group-text">Введите страну:</span>
+                <input type="text" class="form-control" placeholder="Страна">
+                <br/>
+                <span class="input-group-text">Введите описание:</span>
+                <textarea class="form-control" placeholder="Описание" style="height: 100px" th:field="*{description}"></textarea>
+                <br/>
+                <form method="post" th:action="@{/admin/books/save/genre}">
+                    <span class="input-group-text">Выберите жанр:</span>
+                    <select class="form-select" th:fields="*{genres}" size="4" aria-label="size 3 select example">
+                    <option th:each="genre:${genres}" th:value="${genre.id}" th:text="${genre.title}"></option>
+                </select>
+                    <span class="input-group-text">
+                        <ul>
+                            <li th:each="genre: *{genres}">
+                                <span th:value="${genre.id}" th:text="${genre.title}">Название тако</span>
+                            </li>
+                        </ul>
+                    </span>
+                    <button type="submit" class="btn btn-outline-primary">Добавить жанр</button>
+                </form>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
