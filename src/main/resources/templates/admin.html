@@ -11,9 +11,8 @@
     <div class="col-12 text-center">
         <img th:src="@{images/bibl.jpg}"  class="img-fluid max-width: 100% height: auto" >
     </div>
-    <div class="row gx-10">
+    <div class="row gx-5">
         <div class="col-3">
-            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 325px;">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                     <span class="fs-3">Панель управления</span>
                 </a>
@@ -36,21 +35,19 @@
                     </li>
                 </ul>
                 <hr>
-            </div>
         </div>
 
         <div class="col-9">
 
-                <div class="mb-3">
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" id="bookLoud">
                     <label class="form-label"><strong>Загрузка новой книги </strong><mark>(.ePub)</mark></label>
                     <br/>
                     <input class="form-control" type="file" name="file">
                     <input type="hidden" name="_csrf" value="${_csrf.token}" />
                     <br/>
-                    <button type="submit" class="btn btn-primary mb-3">Добавить</button>
+                    <button type="submit" class="btn btn-primary mb-3" form="bookLoud">Добавить</button>
                     </form>
-                </div>
+
         </div>
     </div>
 </div>

@@ -28,4 +28,8 @@ public class GenreService {
         System.out.println("");
         return genres;
     }
+
+    public Genre findById(Long id) {
+        return genreRepository.findById(id).orElse(null);
+    }
 }

@@ -1,24 +1,22 @@
 package ru.nova.novalib.domain;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Entity
 @Table(name = "nl_genre")
+@NoArgsConstructor
 public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "genre_id")
-    private final Long id;
+    private Long genreId;
     @Column(name = "genre_title")
-    private final String title;
+    private String genreTitle;
     @ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "nl_book_genre",
             joinColumns = @JoinColumn(name = "genre_id"),

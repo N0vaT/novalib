@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -25,7 +26,7 @@ public class Author {
     @JoinTable(name = "nl_book_author",
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private Set<Book> books = new TreeSet<>();
+    private Set<Book> books = new HashSet<>();
 
     public void addBook(Book book){
         books.add(book);

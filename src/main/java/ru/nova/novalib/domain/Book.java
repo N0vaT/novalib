@@ -3,8 +3,10 @@ package ru.nova.novalib.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -20,19 +22,20 @@ public class Book {
     private Long id;
     @Column(name = "book_title")
     private String title;
-    @ManyToMany(cascade = CascadeType.REFRESH)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "nl_book_author",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Author> authors = new TreeSet<>();
+    private Set<Author> authors = new HashSet<>();
     @Column(name = "book_publisher")
     private String publisher;
-    @ManyToMany(cascade = CascadeType.REFRESH)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "nl_book_genre",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
     @Column(name = "book_date_of_published")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate published;
     @Column(name = "book_country")
     private String country;

@@ -5,6 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.nova.novalib.domain.Author;
 import ru.nova.novalib.domain.Book;
 
 import java.io.BufferedReader;
@@ -50,6 +51,7 @@ public class EpubConverter {
         log.info("title: {}; author: {}; publisher: {}; description{} ",title, author, publisher, description);
 
         book.setTitle(title);
+//        book.addAuthor(author);
         book.setPublisher(publisher);
         book.setDescription(description);
 

@@ -10,43 +10,43 @@
 <div class="container-xxl">
     <div class="row gx-10">
         <div class="col-12">
-            <form method="post" th:action="@{/admin/books/save}" th:object="${book}">
+            <form method="post" th:action="@{/admin/books/save}" th:object="${book}" id="bookForm">
 
                 <span class="input-group-text">Введите название книги:</span>
-                <input type="text" class="form-control" placeholder="Название" th:field="*{title}">
+                <input type="text" class="form-control" placeholder="Название" form="bookForm" th:field="*{title}">
                 <br/>
                 <span class="input-group-text">Введите имя автора:</span>
-                <input type="text" class="form-control" placeholder="Автор">
+                <input type="text" class="form-control" placeholder="Автор" form="bookForm" th:field="${authorForm.name}">
                 <br/>
                 <span class="input-group-text">Введите издательство:</span>
-                <input type="text" class="form-control" placeholder="Издательство" th:field="*{publisher}">
+                <input type="text" class="form-control" placeholder="Издательство" th:field="*{publisher}" form="bookForm">
                 <br/>
                 <span class="input-group-text">Введите дату релиза:</span>
-                <input type="date" class="form-control" placeholder="Дата релиза">
+                <input type="date" class="form-control" placeholder="Дата релиза" form="bookForm" th:field="*{published}">
                 <br/>
                 <span class="input-group-text">Введите страну:</span>
-                <input type="text" class="form-control" placeholder="Страна">
+                <input type="text" class="form-control" placeholder="Страна" form="bookForm" th:field="*{country}">
                 <br/>
                 <span class="input-group-text">Введите описание:</span>
-                <textarea class="form-control" placeholder="Описание" style="height: 100px" th:field="*{description}"></textarea>
+                <textarea class="form-control" placeholder="Описание" style="height: 100px" th:field="*{description}" form="bookForm"></textarea>
                 <br/>
-                <form method="post" th:action="@{/admin/books/save/genre}">
+            </form>
+                <form method="post" th:action="@{/admin/books/save/genre}" id="genreForm">
                     <span class="input-group-text">Выберите жанр:</span>
-                    <select class="form-select" th:fields="*{genres}" size="4" aria-label="size 3 select example">
-                    <option th:each="genre:${genres}" th:value="${genre.id}" th:text="${genre.title}"></option>
+                    <select class="form-select" th:field="${genreForm.genreId}" size="4" aria-label="size 3 select example" form="genreForm">
+                    <option th:each="oneGenre:${genreList}" th:value="${oneGenre.genreId}" th:text="${oneGenre.genreTitle}"></option>
                 </select>
                     <span class="input-group-text">
-                        <ul>
-                            <li th:each="genre: *{genres}">
-                                <span th:value="${genre.id}" th:text="${genre.title}">Название тако</span>
-                            </li>
-                        </ul>
+                        <div class="row gx-10 px-3" th:each="genre: ${book.genres}">
+        <div class="col-1">
+                                <span th:value="${genre.genreId}" th:text="${genre.genreTitle}">Название жанра</span>
+
+        </div>
+                        </div>
                     </span>
-                    <button type="submit" class="btn btn-outline-primary">Добавить жанр</button>
+                    <button type="submit" class="btn btn-outline-primary" form="genreForm">Добавить жанр</button>
                 </form>
-
-
-            </form>
+                <button type="submit" class="btn btn-outline-primary" form="bookForm">Сохранить книгу</button>
         </div>
     </div>
 </div>
