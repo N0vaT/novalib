@@ -66,7 +66,7 @@ public class BookController {
     @PostMapping("/author")
     public String addAuthor( Author author, @ModelAttribute Book book){
         System.out.println("");
-        book.addAuthor(authorService.existByName(author));
+        book.addAuthor(authorService.existByName(author.getAuthorName()));
         System.out.println("");
         return "redirect:/admin/books/save";
     }

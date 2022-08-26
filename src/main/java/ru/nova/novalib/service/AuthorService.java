@@ -15,13 +15,15 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public Author existByName(Author author){
+    public Author existByName(String authorName){
         System.out.println("");
-        if(authorRepository.existsByAuthorName(author.getAuthorName())){
-            Author a = authorRepository.findByAuthorName(author.getAuthorName());
+        if(authorRepository.existsByAuthorName(authorName)){
+            Author a = authorRepository.findByAuthorName(authorName);
             log.info("Добавлен автор из БД - {}", a);
             return a;
         }else{
+            Author author = new Author();
+            author.setAuthorName(authorName);
             log.info("Создан новый автор - {}", author);
             return authorRepository.save(author);
         }

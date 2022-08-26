@@ -3,6 +3,7 @@ package ru.nova.novalib.service;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.nova.novalib.domain.Author;
@@ -20,6 +21,9 @@ import java.util.zip.ZipFile;
 @Slf4j
 @Component
 public class EpubConverter {
+
+    @Autowired
+    private AuthorService authorService;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -51,7 +55,9 @@ public class EpubConverter {
         log.info("title: {}; author: {}; publisher: {}; description{} ",title, author, publisher, description);
 
         book.setTitle(title);
-//        book.addAuthor(author);
+        if(author!=null){
+            book.addAuthor(authorService.existByName(author));
+        }
         book.setPublisher(publisher);
         book.setDescription(description);
 
