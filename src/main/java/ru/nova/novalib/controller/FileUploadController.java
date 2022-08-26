@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.nova.novalib.service.BookService;
 import ru.nova.novalib.service.FileUploadService;
 
 @Controller()
@@ -12,11 +13,17 @@ import ru.nova.novalib.service.FileUploadService;
 @SessionAttributes("book")
 public class FileUploadController {
 
-    FileUploadService fileUploadService;
+    private FileUploadService fileUploadService;
+    private BookService bookService;
 
-    @Autowired
-    public FileUploadController(FileUploadService fileUploadService) {
+    public FileUploadController(FileUploadService fileUploadService, BookService bookService) {
         this.fileUploadService = fileUploadService;
+        this.bookService = bookService;
+    }
+
+    @ModelAttribute
+    public void addGenresToModel(Model model){
+        model.addAttribute("bookList", bookService.findAll());
     }
 
     @GetMapping

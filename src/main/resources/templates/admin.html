@@ -47,6 +47,11 @@
                     <br/>
                     <button type="submit" class="btn btn-primary mb-3" form="bookLoud">Добавить</button>
                     </form>
+            <div class="col-12">
+                    <span class="input-group-text">Список сохранённых книг:</span>
+                    <select class="form-select" size="4" aria-label="size 3 select example">
+                        <option th:each="oneBook:${bookList}" th:value="${oneBook.id}" th:text="${oneBook.title}"></option>
+                    </select>
 
         </div>
     </div>

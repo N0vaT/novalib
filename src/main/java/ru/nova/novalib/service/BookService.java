@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.nova.novalib.dao.BookRepository;
 import ru.nova.novalib.domain.Book;
 
+import java.util.List;
+
 @Service
 public class BookService {
 
@@ -19,5 +21,9 @@ public class BookService {
     @Transactional
     public void save(Book book){
         bookRepository.saveAndFlush(book);
+    }
+
+    public List<Book> findAll() {
+        return bookRepository.findAll();
     }
 }

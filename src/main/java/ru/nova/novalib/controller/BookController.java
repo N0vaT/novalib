@@ -51,7 +51,7 @@ public class BookController {
         bookService.save(book);
         log.info("Order submitted: {}", book);
         sessionStatus.setComplete();
-        return "admin";
+        return "redirect:/admin";
     }
 
     @PostMapping("/genre")

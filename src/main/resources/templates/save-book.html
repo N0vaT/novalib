@@ -10,6 +10,21 @@
 <div class="container-xxl">
     <div class="row gx-10">
         <div class="col-12">
+            <form method="post" th:action="@{/admin/books/save/genre}" id="genreForm">
+                <span class="input-group-text">Выберите жанр:</span>
+                <select class="form-select" th:field="${genreForm.genreId}" size="4" aria-label="size 3 select example" form="genreForm">
+                    <option th:each="oneGenre:${genreList}" th:value="${oneGenre.genreId}" th:text="${oneGenre.genreTitle}"></option>
+                </select>
+                <span class="input-group-text">
+                        <div class="row gx-10 px-3" th:each="genre: ${book.genres}">
+        <div class="col-1">
+                                <span th:value="${genre.genreId}" th:text="${genre.genreTitle}">Название жанра</span>
+
+        </div>
+                        </div>
+                    </span>
+                <button type="submit" class="btn btn-outline-primary" form="genreForm">Добавить жанр</button>
+            </form>
             <form method="post" th:action="@{/admin/books/save}" th:object="${book}" id="bookForm">
 
                 <span class="input-group-text">Введите название книги:</span>
@@ -31,21 +46,6 @@
                 <textarea class="form-control" placeholder="Описание" style="height: 100px" th:field="*{description}" form="bookForm"></textarea>
                 <br/>
             </form>
-                <form method="post" th:action="@{/admin/books/save/genre}" id="genreForm">
-                    <span class="input-group-text">Выберите жанр:</span>
-                    <select class="form-select" th:field="${genreForm.genreId}" size="4" aria-label="size 3 select example" form="genreForm">
-                    <option th:each="oneGenre:${genreList}" th:value="${oneGenre.genreId}" th:text="${oneGenre.genreTitle}"></option>
-                </select>
-                    <span class="input-group-text">
-                        <div class="row gx-10 px-3" th:each="genre: ${book.genres}">
-        <div class="col-1">
-                                <span th:value="${genre.genreId}" th:text="${genre.genreTitle}">Название жанра</span>
-
-        </div>
-                        </div>
-                    </span>
-                    <button type="submit" class="btn btn-outline-primary" form="genreForm">Добавить жанр</button>
-                </form>
                 <button type="submit" class="btn btn-outline-primary" form="bookForm">Сохранить книгу</button>
         </div>
     </div>

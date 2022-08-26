@@ -3,6 +3,7 @@ package ru.nova.novalib.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -17,9 +18,5 @@ public class Genre {
     private Long genreId;
     @Column(name = "genre_title")
     private String genreTitle;
-    @ManyToMany(cascade = CascadeType.REFRESH)
-    @JoinTable(name = "nl_book_genre",
-            joinColumns = @JoinColumn(name = "genre_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private Set<Book> books;
+
 }
