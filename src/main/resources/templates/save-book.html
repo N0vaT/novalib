@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
-<html   xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Панель администратора</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -10,6 +9,21 @@
 <div class="container-xxl">
     <div class="row gx-10">
         <div class="col-12">
+
+            <form method="post" th:action="@{/admin/books/save/author}" id="authorForm">
+                <span class="input-group-text">Добавьте автора:</span>
+                <input type="text" class="form-control" placeholder="Автор" form="authorForm" th:field="${authorForm.authorName}">
+                <span class="input-group-text">
+                        <div class="row gx-10 px-3" th:each="oneAuthor: ${book.authors}">
+                            <div class="col-1">
+                                <span th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Автор</span>
+                            </div>
+                        </div>
+                    </span>
+                <button type="submit" class="btn btn-outline-primary" form="authorForm">Сохранить автора</button>
+            </form>
+            <br/>
+
             <form method="post" th:action="@{/admin/books/save/genre}" id="genreForm">
                 <span class="input-group-text">Выберите жанр:</span>
                 <select class="form-select" th:field="${genreForm.genreId}" size="4" aria-label="size 3 select example" form="genreForm">
@@ -17,21 +31,19 @@
                 </select>
                 <span class="input-group-text">
                         <div class="row gx-10 px-3" th:each="genre: ${book.genres}">
-        <div class="col-1">
+                            <div class="col-1">
                                 <span th:value="${genre.genreId}" th:text="${genre.genreTitle}">Название жанра</span>
-
-        </div>
+                             </div>
                         </div>
                     </span>
                 <button type="submit" class="btn btn-outline-primary" form="genreForm">Добавить жанр</button>
             </form>
+            </br>
+
             <form method="post" th:action="@{/admin/books/save}" th:object="${book}" id="bookForm">
 
                 <span class="input-group-text">Введите название книги:</span>
                 <input type="text" class="form-control" placeholder="Название" form="bookForm" th:field="*{title}">
-                <br/>
-                <span class="input-group-text">Введите имя автора:</span>
-                <input type="text" class="form-control" placeholder="Автор" form="bookForm" th:field="${authorForm.name}">
                 <br/>
                 <span class="input-group-text">Введите издательство:</span>
                 <input type="text" class="form-control" placeholder="Издательство" th:field="*{publisher}" form="bookForm">

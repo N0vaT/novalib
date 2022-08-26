@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS nl_book
 CREATE TABLE IF NOT EXISTS nl_author
 (
     author_id serial,
-    author_name varchar(50) not null,
+    author_name varchar(50) not null UNIQUE,
     PRIMARY KEY (author_id)
 );
 

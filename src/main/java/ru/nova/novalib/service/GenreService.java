@@ -1,5 +1,6 @@
 package ru.nova.novalib.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.nova.novalib.dao.GenreRepository;
@@ -7,7 +8,7 @@ import ru.nova.novalib.domain.Genre;
 
 import java.util.List;
 
-
+@Slf4j
 @Service
 public class GenreService {
 
@@ -23,15 +24,12 @@ public class GenreService {
     }
 
     public List<Genre> findAll() {
-        System.out.println("");
         List<Genre> genres = genreRepository.findAll();
-        System.out.println("");
         return genres;
     }
 
     public Genre findById(Long id) {
         Genre genre = genreRepository.findById(id).orElse(null);
-        System.out.println("");
         return genre;
     }
 }

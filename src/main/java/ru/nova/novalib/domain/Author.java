@@ -19,16 +19,8 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "author_id")
-    private Long id;
+    private Long authorId;
     @Column(name = "author_name")
-    private String name;
-    @ManyToMany(cascade = CascadeType.REFRESH)
-    @JoinTable(name = "nl_book_author",
-            joinColumns = @JoinColumn(name = "author_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private Set<Book> books = new HashSet<>();
+    private String authorName;
 
-    public void addBook(Book book){
-        books.add(book);
-    }
 }
