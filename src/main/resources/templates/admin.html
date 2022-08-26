@@ -13,28 +13,43 @@
     </div>
     <div class="row gx-5">
         <div class="col-3">
-                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                    <span class="fs-3">Панель управления</span>
+
+                <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+                    <span class="fs-5 fw-semibold">Панель управления</span>
                 </a>
-                <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active" aria-current="page">
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#books-collapse" aria-expanded="true">
                             Управление книгами
-                        </a>
+                        </button>
+                        <div class="collapse" id="books-collapse" >
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a class="nav-link active">Добавить книгу</a></li>
+                                <li><a href="#" class="nav-link ">Найти книгу</a></li>
+                            </ul>
+                        </div>
                     </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed"  data-bs-toggle="collapse" data-bs-target="#user-collapse" aria-expanded="false">
                             Управление участниками
-                        </a>
+                        </button>
+                        <div class="collapse" id="user-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="nav-link ">Найти участника</a></li>
+                            </ul>
+                        </div>
                     </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed"  data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
                             Статистика
-                        </a>
+                        </button>
+                        <div class="collapse" id="dashboard-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="nav-link ">Статистика участников</a></li>
+                                <li><a href="#" class="nav-link ">Статистика книг</a></li>
+                            </ul>
+                        </div>
                     </li>
-                </ul>
-                <hr>
         </div>
 
         <div class="col-9">
@@ -55,6 +70,7 @@
 
         </div>
     </div>
+</div>
 </div>
 
 
