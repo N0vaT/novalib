@@ -6,15 +6,11 @@ import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.nova.novalib.domain.Author;
 import ru.nova.novalib.domain.Book;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.List;
+import java.io.*;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -27,7 +23,9 @@ public class EpubConverter {
 
     @Value("${upload.path}")
     private String uploadPath;
-//    private static final String HTML = ".html";
+    @Value("${upload.posterFile.path}")
+    private String uploadPosterFilePath;
+
     private static final String OPF = ".opf";
     private static final String TEG_TITLE = "dc:title";
     private static final String TEG_PUBLISHER = "dc:publisher";
@@ -35,32 +33,36 @@ public class EpubConverter {
     private static final String TEG_DESCRIPTION = "dc:description";
 
     public Book converter(Book book) {
-        String path = uploadPath + "/" + book.getFileName();
+        String pathEpub = uploadPath + "/epubFile/" + book.getFileName();
+        String pathPoster = uploadPosterFilePath;
 
         ZipFile zf = null;
         try {
-            zf = new ZipFile(path); // Получаем zip-file(epub)
+            zf = new ZipFile(pathEpub); // Получаем zip-file(epub)
         } catch (IOException e) {
             e.printStackTrace();
         }
 //        List<? extends ZipEntry> zipEntriesHtml = zf.stream().filter(e -> e.getName().endsWith(".html")).toList();
         Optional<? extends ZipEntry> zipEntryOpf = zf.stream().filter(e -> e.getName().endsWith(OPF)).findAny(); // Достаём файл с расширением .opf
-//        String nameOpf = zipEntryOpf.get().getName();
+        Optional<? extends ZipEntry> zipEntryJpg = zf.stream().filter(e -> e.getName().endsWith(".jpg")).findAny(); // Достаём файл с расширением .jpg
         String opf = addString(zipEntryOpf, zf); // Получаем текстовое представление файла
-        Document doc = Jsoup.parse(opf);
-        String title = getText(doc, TEG_TITLE);
-        String author = getText(doc, TEG_AUTHOR);
-        String publisher = getText(doc, TEG_PUBLISHER);
-        String description = getText(doc, TEG_DESCRIPTION);
+
+        String title = searchByTags(opf, TEG_TITLE); // Ищем текст по тегам
+        String author = searchByTags(opf, TEG_AUTHOR); // Ищем текст по тегам
+        String publisher = searchByTags(opf, TEG_PUBLISHER); // Ищем текст по тегам
+        String description = searchByTags(opf, TEG_DESCRIPTION); // Ищем текст по тегам
         log.info("title: {}; author: {}; publisher: {}; description{} ",title, author, publisher, description);
 
         book.setTitle(title);
-        if(author!=null){
-            book.addAuthor(authorService.existByName(author));
-        }
         book.setPublisher(publisher);
         book.setDescription(description);
-
+        if(!author.isEmpty()){
+            book.addAuthor(authorService.existByName(author));
+        }
+        if(zipEntryJpg.isPresent()){
+            String posterName = write(zf, zipEntryJpg, pathPoster); // Сохраняем изображение в каталоге постеров и возвращаем полное имя
+            book.setPosterName(posterName);
+        }
         return book;
     }
 
@@ -80,8 +82,25 @@ public class EpubConverter {
         return line.toString();
     }
 
-    private String getText(Document doc, String teg) {
+    private String searchByTags(String text, String teg) {
+        Document doc = Jsoup.parse(text);
         return doc.getElementsByTag(teg).text();
+    }
+
+    private static String write(ZipFile zf, Optional<? extends ZipEntry> zipEntry, String pathPoster)  {
+        ZipEntry ze = zipEntry.get();
+        File f = new File(zipEntry.get().getName());
+        String name = UUID.randomUUID() + "_" + f.getName();
+        try(BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(pathPoster, name)))){
+            InputStream in = zf.getInputStream(ze);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = in.read(buffer)) >= 0)
+                out.write(buffer, 0, len);
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+        return name;
     }
 
 }

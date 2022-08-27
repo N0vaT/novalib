@@ -9,7 +9,7 @@
 <div class="container-xxl">
     <div class="row gx-10">
         <div class="col-12">
-
+            <img th:src="@{/posters/{name}(name=${book.posterName})}">
             <form method="post" th:action="@{/admin/books/save/author}" id="authorForm">
                 <span class="input-group-text">Добавьте автора:</span>
                 <input type="text" class="form-control" placeholder="Автор" form="authorForm" th:field="${authorForm.authorName}">

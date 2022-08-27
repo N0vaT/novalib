@@ -11,8 +11,9 @@ CREATE TABLE IF NOT EXISTS nl_book
     book_publisher varchar(50) not null,
     book_date_of_published date not null,
     book_country varchar(30) not null,
-    book_description varchar(500) not null,
+    book_description varchar(800) not null,
     book_file_name varchar(200) not null,
+    book_poster_name varchar(200) not null,
     PRIMARY KEY (book_id)
 );
 

@@ -33,7 +33,7 @@ class GenreServiceTest {
 //        }
 //        for (String title : result) {
 //            Genre genre = new Genre();
-//            genre.setTitle(title);
+//            genre.setGenreTitle(title);
 //            genreService.save(genre);
 //        }
 //        result.forEach(System.out::println);

@@ -7,6 +7,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.awt.*;
+import java.io.File;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -43,6 +46,8 @@ public class Book {
     private String description;
     @Column(name = "book_file_name")
     private String fileName;
+    @Column(name = "book_poster_name")
+    private String posterName;
 
     public void addAuthor(Author author){
         authors.add(author);

@@ -3,6 +3,7 @@ package ru.nova.novalib.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.nova.novalib.domain.Book;
 
@@ -30,18 +31,16 @@ public class FileUploadService {
         return book;
     }
 
+    @Transactional
     private void saveAndConvertInBook(MultipartFile multipartFile, Book book) {
             String resultFilename =  UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
-            try {
-                File file = new File(uploadPath + "/" + resultFilename);
-                if(!file.exists()){
-                    file.mkdir();
-                }
-                multipartFile.transferTo(file);
-                book.setFileName(resultFilename);
+            File file = new File(uploadPath + "/epubFile/" + resultFilename);
+        try {
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        book.setFileName(resultFilename);
                 epubConverter.converter(book);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
     }
 }
