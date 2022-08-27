@@ -1,15 +1,62 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Панель администратора</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
+<br/>
 <div class="container-xxl">
     <div class="row gx-10">
-        <div class="col-12">
-            <img th:src="@{/posters/{name}(name=${book.posterName})}">
+        <div class="col-5">
+            <div class="row gx-10">
+                <div class="col-3">
+                </div>
+                <div class="col-6">
+            <img th:src="@{/posters/{name}(name=${book.posterName})}" class="img-fluid max-width: 100% height: auto img-thumbnail">
+                </div>
+                <div class="col-3">
+                </div>
+            </div>
+            <ul class="list-unstyled">
+
+                <li><strong>Название:</strong></li>
+                <ul>
+                    <li th:text="${book.title}">Title</li>
+                </ul>
+                <li>Автор:</li>
+                <ul th:each="oneAuthor: ${book.authors}">
+                    <li th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Author</li>
+                </ul>
+
+                <li>Жанр:</li>
+                <ul th:each="genre: ${book.genres}">
+                    <li th:value="${genre.genreId}" th:text="${genre.genreTitle}">Genre</li>
+                </ul>
+
+                <li>Издательство:</li>
+                <ul>
+                    <li th:text="${book.publisher}">Publisher</li>
+                </ul>
+
+                <li>Дата релиза:</li>
+                <ul>
+                    <li th:text="${book.published}">Published</li>
+                </ul>
+
+                <li>Страна:</li>
+                <ul>
+                    <li th:text="${book.country}">Country</li>
+                </ul>
+
+                <li>Описание:</li>
+                <textarea class="form-control" placeholder="Описание" style="height: 100px" th:text="${book.description}"></textarea>
+
+
+            </ul>
+        </div>
+        <div class="col-7">
             <form method="post" th:action="@{/admin/books/save/author}" id="authorForm">
                 <span class="input-group-text">Добавьте автора:</span>
                 <input type="text" class="form-control" placeholder="Автор" form="authorForm" th:field="${authorForm.authorName}">
