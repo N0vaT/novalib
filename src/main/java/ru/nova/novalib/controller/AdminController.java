@@ -10,12 +10,12 @@ import ru.nova.novalib.service.FileUploadService;
 @Controller()
 @RequestMapping("/admin")
 @SessionAttributes("book")
-public class FileUploadController {
+public class AdminController {
 
     private FileUploadService fileUploadService;
     private BookService bookService;
 
-    public FileUploadController(FileUploadService fileUploadService, BookService bookService) {
+    public AdminController(FileUploadService fileUploadService, BookService bookService) {
         this.fileUploadService = fileUploadService;
         this.bookService = bookService;
     }

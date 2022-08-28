@@ -19,22 +19,42 @@ public class FileUploadService {
 
     @Value("${upload.path}")
     private String uploadPath;
+    @Value("${upload.posterFile.path}")
+    private String uploadPosterFilePath;
 
     public Book saveFile(MultipartFile multipartFile){
         Book book = new Book();
         if(multipartFile != null) {
+            File uploadDir = new File(uploadPath);
+            if(!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
             saveAndConvertInBook(multipartFile, book);
-        }else{
-            //TODO Exeption
         }
 
         return book;
     }
 
-    @Transactional
+    public void savePoster(MultipartFile multipartFile, Book book) {
+        if(multipartFile != null) {
+            File uploadDir = new File(uploadPosterFilePath);
+            if(!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+            String resultFilename =  UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
+            File file = new File(uploadPosterFilePath + resultFilename);
+            try {
+                multipartFile.transferTo(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            book.setPosterName(resultFilename);
+        }
+    }
+
     private void saveAndConvertInBook(MultipartFile multipartFile, Book book) {
             String resultFilename =  UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
-            File file = new File(uploadPath + "/epubFile/" + resultFilename);
+            File file = new File(uploadPath + resultFilename);
         try {
             multipartFile.transferTo(file);
         } catch (IOException e) {
@@ -43,4 +63,5 @@ public class FileUploadService {
         book.setFileName(resultFilename);
                 epubConverter.converter(book);
     }
+
 }

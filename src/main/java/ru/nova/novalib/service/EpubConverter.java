@@ -33,7 +33,7 @@ public class EpubConverter {
     private static final String TEG_DESCRIPTION = "dc:description";
 
     public Book converter(Book book) {
-        String pathEpub = uploadPath + "/epubFile/" + book.getFileName();
+        String pathEpub = uploadPath + book.getFileName();
         String pathPoster = uploadPosterFilePath;
 
         ZipFile zf = null;
@@ -48,9 +48,9 @@ public class EpubConverter {
         String opf = addString(zipEntryOpf, zf); // Получаем текстовое представление файла
 
         String title = searchByTags(opf, TEG_TITLE); // Ищем текст по тегам
-        String author = searchByTags(opf, TEG_AUTHOR); // Ищем текст по тегам
-        String publisher = searchByTags(opf, TEG_PUBLISHER); // Ищем текст по тегам
-        String description = searchByTags(opf, TEG_DESCRIPTION); // Ищем текст по тегам
+        String author = searchByTags(opf, TEG_AUTHOR);
+        String publisher = searchByTags(opf, TEG_PUBLISHER);
+        String description = searchByTags(opf, TEG_DESCRIPTION);
         log.info("title: {}; author: {}; publisher: {}; description{} ",title, author, publisher, description);
 
         book.setTitle(title);
@@ -60,6 +60,10 @@ public class EpubConverter {
             book.addAuthor(authorService.existByName(author));
         }
         if(zipEntryJpg.isPresent()){
+            File uploadDir = new File(uploadPosterFilePath);
+            if(!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
             String posterName = write(zf, zipEntryJpg, pathPoster); // Сохраняем изображение в каталоге постеров и возвращаем полное имя
             book.setPosterName(posterName);
         }

@@ -24,7 +24,7 @@ server:
   port: 8080
 
 upload:
-  path: D:/Project/novalib/src/main/resources/static/uploads/
+  path: D:/Project/novalib/src/main/resources/static/uploads/epubFile/
   posterFile:
     path: D:/Project/novalib/src/main/resources/static/uploads/posters/
 

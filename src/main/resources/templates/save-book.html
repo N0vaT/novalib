@@ -4,59 +4,77 @@
     <title>Панель администратора</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .media-info-list_title{
+            color: #9E9E9E;
+        }
+    </style>
 </head>
 <body>
 <br/>
 <div class="container-xxl">
     <div class="row gx-10">
-        <div class="col-5">
-            <div class="row gx-10">
-                <div class="col-3">
-                </div>
-                <div class="col-6">
-            <img th:src="@{/posters/{name}(name=${book.posterName})}" class="img-fluid max-width: 100% height: auto img-thumbnail">
-                </div>
-                <div class="col-3">
+        <div class="col-3 ">
+            <div>
+            <img th:src="@{/posters/{name}(name=${book.posterName})}" class="rounded mx-auto d-block" width="250px" height="350px">
+                <a class="btn btn-primary mx-auto d-block" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    Загрузить новый постер
+                </a>
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Загрузите новое изображение</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+                    </div>
+
+                    <form method="post" enctype="multipart/form-data" th:action="@{/admin/books/save/bookPoster}" id="posterLoud">
+                        <input class="form-control" type="file" name="file">
+                        <br/>
+                        <button type="submit" class="btn btn-primary mb-3" form="posterLoud">Загрузить</button>
+                    </form>
+
                 </div>
             </div>
-            <ul class="list-unstyled">
+            <div class="row gx-10">
+                <div class="media-info-list_title">Название:</div>
+                <div th:text="${book.title}">Title</div>
+            </div>
 
-                <li><strong>Название:</strong></li>
-                <ul>
-                    <li th:text="${book.title}">Title</li>
-                </ul>
-                <li>Автор:</li>
-                <ul th:each="oneAuthor: ${book.authors}">
-                    <li th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Author</li>
-                </ul>
+            <div class="row gx-10">
+                <div class="media-info-list_title">Автор:</div>
+                <div th:each="oneAuthor: ${book.authors}">
+                    <div th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Author</div>
+                </div>
+            </div>
 
-                <li>Жанр:</li>
-                <ul th:each="genre: ${book.genres}">
-                    <li th:value="${genre.genreId}" th:text="${genre.genreTitle}">Genre</li>
-                </ul>
+            <div class="row gx-10">
+                <div class="media-info-list_title">Жанр:</div>
+                <div th:each="genre: ${book.genres}">
+                    <div th:value="${genre.genreId}" th:text="${genre.genreTitle}">Genre</div>
+                </div>
+            </div>
 
-                <li>Издательство:</li>
-                <ul>
-                    <li th:text="${book.publisher}">Publisher</li>
-                </ul>
+            <div class="row gx-10">
+                <div class="media-info-list_title">Издательство:</div>
+                    <div th:text="${book.publisher}">Publisher</div>
+            </div>
 
-                <li>Дата релиза:</li>
-                <ul>
-                    <li th:text="${book.published}">Published</li>
-                </ul>
+            <div class="row gx-10">
+                <div class="media-info-list_title">Дата релиза:</div>
+                    <div th:text="${book.published}">Published</div>
+            </div>
 
-                <li>Страна:</li>
-                <ul>
-                    <li th:text="${book.country}">Country</li>
-                </ul>
+            <div class="row gx-10">
+                <div class="media-info-list_title">Страна:</div>
+                    <div th:text="${book.country}">Country</div>
+            </div>
 
-                <li>Описание:</li>
+            <div class="row gx-10">
+                <div class="media-info-list_title">Описание:</div>
                 <textarea class="form-control" placeholder="Описание" style="height: 100px" th:text="${book.description}"></textarea>
+            </div>
 
-
-            </ul>
         </div>
-        <div class="col-7">
+        <div class="col-9">
             <form method="post" th:action="@{/admin/books/save/author}" id="authorForm">
                 <span class="input-group-text">Добавьте автора:</span>
                 <input type="text" class="form-control" placeholder="Автор" form="authorForm" th:field="${authorForm.authorName}">
