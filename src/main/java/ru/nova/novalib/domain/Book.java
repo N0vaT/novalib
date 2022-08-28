@@ -6,10 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.awt.*;
-import java.io.File;
-import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -37,9 +33,8 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
-    @Column(name = "book_date_of_published")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate published;
+    @Column(name = "book_year_published")
+    private String yearPublished;
     @Column(name = "book_country")
     private String country;
     @Column(name = "book_description")

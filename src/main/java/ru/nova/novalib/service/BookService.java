@@ -23,7 +23,12 @@ public class BookService {
         bookRepository.saveAndFlush(book);
     }
 
+    @Transactional(readOnly = true)
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    public Book findById(Long id){
+        return bookRepository.findById(id).orElse(null);
     }
 }

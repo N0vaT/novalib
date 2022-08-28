@@ -44,14 +44,14 @@ public class EpubConverter {
         }
 //        List<? extends ZipEntry> zipEntriesHtml = zf.stream().filter(e -> e.getName().endsWith(".html")).toList();
         Optional<? extends ZipEntry> zipEntryOpf = zf.stream().filter(e -> e.getName().endsWith(OPF)).findAny(); // Достаём файл с расширением .opf
-        Optional<? extends ZipEntry> zipEntryJpg = zf.stream().filter(e -> e.getName().endsWith(".jpg")).findAny(); // Достаём файл с расширением .jpg
+        Optional<? extends ZipEntry> zipEntryJpg = zf.stream().filter(e -> e.getName().endsWith(".jpg")).findFirst(); // Достаём файл с расширением .jpg
         String opf = addString(zipEntryOpf, zf); // Получаем текстовое представление файла
 
         String title = searchByTags(opf, TEG_TITLE); // Ищем текст по тегам
         String author = searchByTags(opf, TEG_AUTHOR);
         String publisher = searchByTags(opf, TEG_PUBLISHER);
         String description = searchByTags(opf, TEG_DESCRIPTION);
-        log.info("title: {}; author: {}; publisher: {}; description{} ",title, author, publisher, description);
+        log.info("Epub converter - title: {}; author: {}; publisher: {}; description{} ",title, author, publisher, description);
 
         book.setTitle(title);
         book.setPublisher(publisher);

@@ -16,9 +16,6 @@ class EpubConverterTest {
 
     @Test
     void converter() {
-        Book b = new Book();
-        b.setFileName("15191078-09c7-4a1e-99bd-0501adceaf5e_protivostoyanie_svyatogo.epub");
-        epubConverter.converter(b);
 
     }
 }

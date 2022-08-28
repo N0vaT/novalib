@@ -1,80 +1,84 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" >
 <head>
     <title>Панель администратора</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
     <style>
+<!--    body {-->
+<!--   	   background: #DBDBDB;-->
+<!--   }-->
+        .media-info-list{
+        background-color: #397DD5;
+        color: #ffff;
+        }
         .media-info-list_title{
             color: #9E9E9E;
         }
+
     </style>
 </head>
 <body>
 
-<div class="container-xxl">
-    <div class="row gx-10">
-        <div class="col-3 ">
-            <div>
+<div class="container-xxl border">
+    <div class="row border">
+        <div class="col-3 border">
+            <br/>
                 <img th:src="@{/posters/{name}(name=${book.posterName})}" class="rounded mx-auto d-block" width="250px" height="350px">
-                <a class="btn btn-primary mx-auto d-block" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-                    Загрузить новый постер
-                </a>
-                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Загрузите новое изображение</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
-                    </div>
-
-                    <form method="post" enctype="multipart/form-data" th:action="@{/admin/books/save/bookPoster}" id="posterLoud">
-                        <input class="form-control" type="file" name="file">
-                        <br/>
-                        <button type="submit" class="btn btn-primary mb-3" form="posterLoud">Загрузить</button>
-                    </form>
-
-                </div>
-            </div>
-            <div class="row gx-10">
-                <div class="media-info-list_title">Название:</div>
+            <br/>
+            <div class="border bg-light">
+            <div class="row ">
+                <div class="media-info-list_title ">Название:</div>
                 <div th:text="${book.title}">Title</div>
             </div>
 
-            <div class="row gx-10">
+            <div >
                 <div class="media-info-list_title">Автор:</div>
                 <div th:each="oneAuthor: ${book.authors}">
                     <div th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Author</div>
                 </div>
             </div>
 
-            <div class="row gx-10">
+            <div class="row">
                 <div class="media-info-list_title">Жанр:</div>
                 <div th:each="genre: ${book.genres}">
                     <div th:value="${genre.genreId}" th:text="${genre.genreTitle}">Genre</div>
                 </div>
             </div>
 
-            <div class="row gx-10">
+            <div class="row">
                 <div class="media-info-list_title">Издательство:</div>
                 <div th:text="${book.publisher}">Publisher</div>
             </div>
 
-            <div class="row gx-10">
-                <div class="media-info-list_title">Дата релиза:</div>
-                <div th:text="${book.published}">Published</div>
+            <div class="row">
+                <div class="media-info-list_title">Год издания:</div>
+                <div th:text="${book.yearPublished}">yearPublished</div>
             </div>
 
-            <div class="row gx-10">
+            <div class="row">
                 <div class="media-info-list_title">Страна:</div>
                 <div th:text="${book.country}">Country</div>
             </div>
-
-            <div class="row gx-10">
-                <div class="media-info-list_title">Описание:</div>
-                <textarea class="form-control" placeholder="Описание" style="height: 100px" th:text="${book.description}"></textarea>
             </div>
-
         </div>
+
         <div class="col-9">
+            <br/>
+            <div class="text-center display-3" th:text="${book.title}">Title</div>
+            <div class="media-info-list p-2">
+                Описание
+            </div>
+            <div class="border bg-light p-2">
+                <p th:text="${book.description}"></p>
+            </div>
+            <br/>
+            <div class="media-info-list p-2">
+                Жанры
+            </div>
+            <div class="media-tags border" th:each="genre: ${book.genres}">
+                <a href="#" class="btn btn-outline-primary" th:text="${genre.genreTitle}">Genre</a>
+            </div>
 
         </div>
     </div>
