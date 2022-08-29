@@ -3,10 +3,8 @@ package ru.nova.novalib.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.*;
 
 @Data
@@ -43,6 +41,9 @@ public class Book {
     private String fileName;
     @Column(name = "book_poster_name")
     private String posterName;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "book_id", nullable = false)
+    private List<Chapter> chapters = new ArrayList<>();
 
     public void addAuthor(Author author){
         authors.add(author);
@@ -50,5 +51,9 @@ public class Book {
 
     public void addGenre(Genre genre){
         genres.add(genre);
+    }
+
+    public void addChapters(Chapter chapter){
+    chapters.add(chapter);
     }
 }

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS nl_chapters;
 DROP TABLE IF EXISTS nl_book_genre;
 DROP TABLE IF EXISTS nl_book_author;
 DROP TABLE IF EXISTS nl_genre;
@@ -48,3 +49,15 @@ CREATE TABLE IF NOT EXISTS nl_book_genre
     CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES nl_book (book_id),
     CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES nl_genre (genre_id)
 );
+
+CREATE TABLE IF NOT EXISTS nl_chapters
+(
+    chapter_id serial,
+    chapter_name varchar(200) not null,
+    chapter_text text not null,
+    book_id integer not null,
+    PRIMARY KeY (chapter_id),
+    FOREIGN KEY (book_id) REFERENCES nl_book (book_id)
+);
+
+CREATE INDEX chapter_book_idx ON nl_chapters (book_id);
