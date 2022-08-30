@@ -4,14 +4,22 @@
     <title>Панель администратора</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
+    <style>
+    .scrollClass {
+    height:200px;
+    overflow-y: scroll;
+    }
+    .media-info-list{
+        background-color: #397DD5;
+        color: #ffff;
+    }
+    </style>
 </head>
 <body>
-<div class="container-xxl">
-    <div class="col-12 text-center">
-        <img th:src="@{images/bibl.jpg}"  class="img-fluid max-width: 100% height: auto" >
-    </div>
-    <div class="row gx-5">
-        <div class="col-3">
+<div class="container-xxl border">
+        <img th:src="@{images/bibl.jpg}"  class="img-fluid max-width: 100% height: auto rounded mx-auto d-block" >
+    <div class="row border">
+        <div class="col-3 border">
 
                 <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
                     <span class="fs-5 fw-semibold">Панель управления</span>
@@ -52,21 +60,27 @@
                 </ul>
         </div>
 
-        <div class="col-9">
+        <div class="col-9 border">
 
                     <form method="post" enctype="multipart/form-data" id="bookLoud">
-                    <label class="form-label"><strong>Загрузка новой книги </strong><mark>(.ePub)</mark></label>
-                    <br/>
+                        <div class="media-info-list p-2">
+                            Загрузка новой книги (.ePub)
+                        </div>
                     <input class="form-control" type="file" name="file">
                     <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                    <br/>
-                    <button type="submit" class="btn btn-primary mb-3" form="bookLoud">Добавить</button>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary mb-3 " form="bookLoud">Загрузить</button>
+                        </div>
                     </form>
             <div class="col-12">
-                    <span class="input-group-text">Список сохранённых книг:</span>
-                    <select class="form-select" size="4" aria-label="size 3 select example">
-                        <option  th:each="oneBook:${bookList}" th:value="${oneBook.id}" th:text="${oneBook.title}"></option>
-                    </select>
+                <div class="media-info-list p-2">
+                    Список добавленных книг
+                </div>
+                <div class="form-select scrollClass">
+                    <div th:each="oneBook:${bookList}">
+                        <a class="list-group-item list-group-item-action" th:href="@{'/book/' + ${oneBook.id}}" th:text="${oneBook.title}">Book</a>
+                    </div>
+                </div>
 
         </div>
     </div>

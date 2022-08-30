@@ -5,15 +5,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
     <style>
-<!--    body {-->
-<!--   	   background: #DBDBDB;-->
-<!--   }-->
         .media-info-list{
         background-color: #397DD5;
         color: #ffff;
         }
         .media-info-list_title{
             color: #9E9E9E;
+        }
+        .scrollClass {
+        height:350px;
+        overflow-y: scroll;
         }
 
     </style>
@@ -24,39 +25,39 @@
     <div class="row border">
         <div class="col-3 border">
             <br/>
-                <img th:src="@{/posters/{name}(name=${book.posterName})}" class="rounded mx-auto d-block" width="250px" height="350px">
+                <img th:src="@{/posters/{name}(name=${book.posterName})}" class="img-fluid mx-auto d-block" width="250px" height="350px">
             <br/>
             <div class="border bg-light">
-            <div class="row ">
+            <div class="row px-2">
                 <div class="media-info-list_title ">Название:</div>
                 <div th:text="${book.title}">Title</div>
             </div>
 
-            <div >
+            <div class="row px-2">
                 <div class="media-info-list_title">Автор:</div>
                 <div th:each="oneAuthor: ${book.authors}">
                     <div th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Author</div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row px-2">
                 <div class="media-info-list_title">Жанр:</div>
                 <div th:each="genre: ${book.genres}">
                     <div th:value="${genre.genreId}" th:text="${genre.genreTitle}">Genre</div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row px-2">
                 <div class="media-info-list_title">Издательство:</div>
                 <div th:text="${book.publisher}">Publisher</div>
             </div>
 
-            <div class="row">
+            <div class="row px-2">
                 <div class="media-info-list_title">Год издания:</div>
                 <div th:text="${book.yearPublished}">yearPublished</div>
             </div>
 
-            <div class="row">
+            <div class="row px-2">
                 <div class="media-info-list_title">Страна:</div>
                 <div th:text="${book.country}">Country</div>
             </div>
@@ -76,8 +77,20 @@
             <div class="media-info-list p-2">
                 Жанры
             </div>
-            <div class="media-tags border" th:each="genre: ${book.genres}">
-                <a href="#" class="btn btn-outline-primary" th:text="${genre.genreTitle}">Genre</a>
+            <div>
+            <div class="btn-group" role="group" aria-label="Basic outlined example" th:each="genre: ${book.genres}">
+                <a type="button" class="btn btn-outline-primary" href="#" th:text="${genre.genreTitle}">Left</a>
+            </div>
+            </div>
+
+            <br/>
+            <div class="media-info-list p-2">
+                Список глав
+            </div>
+            <div class="form-select scrollClass">
+                <div th:each="oneChapter:${book.chapters}">
+                    <a class="list-group-item list-group-item-action" href="#" th:text="${oneChapter.chapterName}">Chapters</a>
+                </div>
             </div>
 
         </div>

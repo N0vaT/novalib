@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS nl_book_genre
 CREATE TABLE IF NOT EXISTS nl_chapters
 (
     chapter_id serial,
-    chapter_name varchar(200) not null,
+    chapter_name varchar(100) not null,
     chapter_text text not null,
     book_id integer not null,
     PRIMARY KeY (chapter_id),

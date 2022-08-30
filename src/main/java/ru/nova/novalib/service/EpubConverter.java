@@ -1,5 +1,6 @@
 package ru.nova.novalib.service;
 
+import antlr.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -140,8 +141,12 @@ public class EpubConverter {
         Elements navPoint = doc.select("navPoint");
         for(Element element: navPoint){
             String navLabel = element.getElementsByTag("navLabel").text();
+            if(navLabel.length()>100) continue;
             String content = element.getElementsByTag("content").attr("src");
-
+            if(!content.endsWith("html")&& content.length()>0) {
+                content = content.replaceAll("html.*", "");
+                content = content + "html";
+            }
             if(navLabel.isEmpty() || content.isEmpty()) {
                 continue;
             }

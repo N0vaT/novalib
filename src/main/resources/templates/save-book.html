@@ -8,15 +8,19 @@
         .media-info-list_title{
             color: #9E9E9E;
         }
+        .media-info-list{
+        background-color: #397DD5;
+        color: #ffff;
+        }
     </style>
 </head>
 <body>
 <br/>
-<div class="container-xxl">
-    <div class="row gx-10">
-        <div class="col-3 ">
-            <div>
-            <img th:src="@{/posters/{name}(name=${book.posterName})}" class="rounded mx-auto d-block" width="250px" height="350px">
+<div class="container-xxl border">
+    <div class="row border">
+        <div class="col-3 border">
+            <br/>
+            <img th:src="@{/posters/{name}(name=${book.posterName})}" class="img-fluid mx-auto d-block" width="250px" height="350px">
                 <a class="btn btn-primary mx-auto d-block" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
                     Загрузить новый постер
                 </a>
@@ -31,52 +35,85 @@
                         <br/>
                         <button type="submit" class="btn btn-primary mb-3" form="posterLoud">Загрузить</button>
                     </form>
-
                 </div>
-            </div>
-            <div class="row gx-10">
-                <div class="media-info-list_title">Название:</div>
-                <div th:text="${book.title}">Title</div>
-            </div>
 
-            <div class="row gx-10">
-                <div class="media-info-list_title">Автор:</div>
-                <div th:each="oneAuthor: ${book.authors}">
-                    <div th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Author</div>
+            <div class="border bg-light">
+                <div class="row px-2">
+                    <div class="media-info-list_title ">Название:</div>
+                    <div th:text="${book.title}">Title</div>
                 </div>
-            </div>
 
-            <div class="row gx-10">
-                <div class="media-info-list_title">Жанр:</div>
-                <div th:each="genre: ${book.genres}">
-                    <div th:text="${genre.genreTitle}">Genre</div>
+                <div class="row px-2">
+                    <div class="media-info-list_title">Автор:</div>
+                    <div th:each="oneAuthor: ${book.authors}">
+                        <div th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Author</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row gx-10">
-                <div class="media-info-list_title">Издательство:</div>
+                <div class="row px-2">
+                    <div class="media-info-list_title">Жанр:</div>
+                    <div th:each="genre: ${book.genres}">
+                        <div th:value="${genre.genreId}" th:text="${genre.genreTitle}">Genre</div>
+                    </div>
+                </div>
+
+                <div class="row px-2">
+                    <div class="media-info-list_title">Издательство:</div>
                     <div th:text="${book.publisher}">Publisher</div>
-            </div>
+                </div>
 
-            <div class="row gx-10">
-                <div class="media-info-list_title">Год издания:</div>
+                <div class="row px-2">
+                    <div class="media-info-list_title">Год издания:</div>
                     <div th:text="${book.yearPublished}">yearPublished</div>
-            </div>
+                </div>
 
-            <div class="row gx-10">
-                <div class="media-info-list_title">Страна:</div>
+                <div class="row px-2">
+                    <div class="media-info-list_title">Страна:</div>
                     <div th:text="${book.country}">Country</div>
-            </div>
+                </div>
 
-            <div class="row gx-10">
-                <div class="media-info-list_title">Описание:</div>
-                <textarea class="form-control" placeholder="Описание" style="height: 100px" th:text="${book.description}"></textarea>
+                <div class="row px-2">
+                    <div class="media-info-list_title">Описание:</div>
+                    <textarea class="form-control" placeholder="Описание" style="height: 100px" th:text="${book.description}"></textarea>
+                </div>
             </div>
-
         </div>
+
         <div class="col-9">
+            <br/>
+
+            <form method="post" th:action="@{/admin/books/save}" th:object="${book}" id="bookForm">
+
+                <div class="media-info-list p-2">
+                    Введите название книги:
+                </div>
+                <input type="text" class="form-control" placeholder="Название" form="bookForm" th:field="*{title}">
+
+                <div class="media-info-list p-2">
+                    Введите издательство:
+                </div>
+                <input type="text" class="form-control" placeholder="Издательство" th:field="*{publisher}" form="bookForm">
+
+                <div class="media-info-list p-2">
+                    Введите год издания:
+                </div>
+                <input type="text" class="form-control" placeholder="Год издания" form="bookForm" th:field="*{yearPublished}">
+
+                <div class="media-info-list p-2">
+                    Введите страну:
+                </div>
+                <input type="text" class="form-control" placeholder="Страна" form="bookForm" th:field="*{country}">
+
+                <div class="media-info-list p-2">
+                    Введите описание:
+                </div>
+                <textarea class="form-control" placeholder="Описание" style="height: 100px" th:field="*{description}" form="bookForm"></textarea>
+            </form>
+
             <form method="post" th:action="@{/admin/books/save/author}" id="authorForm">
-                <span class="input-group-text">Добавьте автора:</span>
+                <div class="media-info-list p-2">
+                    Добавьте автора:
+                </div>
                 <input type="text" class="form-control" placeholder="Автор" form="authorForm" th:field="${authorForm.authorName}">
                 <span class="input-group-text">
                         <div class="row gx-10 px-3" th:each="oneAuthor: ${book.authors}">
@@ -84,13 +121,15 @@
                                 <span th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Автор</span>
                             </div>
                         </div>
-                    </span>
+                </span>
                 <button type="submit" class="btn btn-outline-primary" form="authorForm">Сохранить автора</button>
             </form>
-            <br/>
 
             <form method="post" th:action="@{/admin/books/save/genre}" id="genreForm">
-                <span class="input-group-text">Выберите жанр:</span>
+
+                <div class="media-info-list p-2">
+                    Выберите жанр:
+                </div>
                 <select class="form-select" th:field="${genreForm.genreId}" size="4" aria-label="size 3 select example" form="genreForm">
                     <option th:each="oneGenre:${genreList}" th:value="${oneGenre.genreId}" th:text="${oneGenre.genreTitle}"></option>
                 </select>
@@ -103,29 +142,12 @@
                     </span>
                 <button type="submit" class="btn btn-outline-primary" form="genreForm">Добавить жанр</button>
             </form>
-            </br>
-
-            <form method="post" th:action="@{/admin/books/save}" th:object="${book}" id="bookForm">
-
-                <span class="input-group-text">Введите название книги:</span>
-                <input type="text" class="form-control" placeholder="Название" form="bookForm" th:field="*{title}">
-                <br/>
-                <span class="input-group-text">Введите издательство:</span>
-                <input type="text" class="form-control" placeholder="Издательство" th:field="*{publisher}" form="bookForm">
-                <br/>
-                <span class="input-group-text">Введите год издания:</span>
-                <input type="text" class="form-control" placeholder="Год издания" form="bookForm" th:field="*{yearPublished}">
-                <br/>
-                <span class="input-group-text">Введите страну:</span>
-                <input type="text" class="form-control" placeholder="Страна" form="bookForm" th:field="*{country}">
-                <br/>
-                <span class="input-group-text">Введите описание:</span>
-                <textarea class="form-control" placeholder="Описание" style="height: 100px" th:field="*{description}" form="bookForm"></textarea>
-                <br/>
-            </form>
-                <button type="submit" class="btn btn-outline-primary" form="bookForm">Сохранить книгу</button>
         </div>
+        <br/>
+        <button type="submit" class="btn btn-success" form="bookForm">Сохранить книгу</button>
     </div>
+    <br/>
+    <br/>
 </div>
 
 <script src="/js/bootstrap.min.js"></script>
