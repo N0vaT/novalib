@@ -5,11 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "nl_author")
 public class Author {
@@ -21,4 +22,7 @@ public class Author {
     @Column(name = "author_name")
     private String authorName;
 
+    public Author(String authorName) {
+        this.authorName = authorName;
+    }
 }

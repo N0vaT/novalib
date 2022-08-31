@@ -1,6 +1,5 @@
 package ru.nova.novalib.service;
 
-import antlr.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -80,6 +79,7 @@ public class EpubConverter {
 
             chapterSrc = findChapterAndText(zf, zipEntryNCX); // Получение Map<String, String>(ChapterName , src)
             if(chapterSrc != null) {
+                int count = 0; // порядок глав в книге (для упорядочения)
                 for (Map.Entry<String, String> entry : chapterSrc.entrySet()) { // Если Главы существуют, добавляем их в книгу
                     String chapterName = entry.getKey();
                     String src = entry.getValue();
@@ -88,6 +88,7 @@ public class EpubConverter {
                     Chapter chapter = new Chapter();
                     chapter.setChapterName(chapterName);
                     chapter.setChapterText(searchByTags(chapterText, TEG_BODY));
+                    chapter.setNumberInBook(count++);
                     book.addChapters(chapter);
                 }
             }

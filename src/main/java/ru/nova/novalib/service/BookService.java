@@ -1,10 +1,15 @@
 package ru.nova.novalib.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.nova.novalib.dao.BookRepository;
 import ru.nova.novalib.domain.Book;
+import ru.nova.novalib.domain.BookPage;
 
 import java.util.List;
 
@@ -20,7 +25,7 @@ public class BookService {
 
     @Transactional
     public void save(Book book){
-        bookRepository.saveAndFlush(book);
+        bookRepository.save(book);
     }
 
     @Transactional(readOnly = true)
@@ -28,7 +33,14 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Book findById(Long id){
         return bookRepository.findById(id).orElse(null);
+    }
+
+    public Page<Book> getBooks(BookPage bookPage){
+        Sort sort = Sort.by(bookPage.getSortDirection(), bookPage.getSortBy());
+        Pageable pageable = PageRequest.of(bookPage.getPageNumber(), bookPage.getPageSize(), sort);
+        return bookRepository.findAll(pageable);
     }
 }

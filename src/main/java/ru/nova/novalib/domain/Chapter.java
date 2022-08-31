@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "nl_chapters")
 public class Chapter {
@@ -21,5 +20,15 @@ public class Chapter {
     private String chapterName;
     @Column(name = "chapter_text")
     private String chapterText;
+    @Column(name = "number_in_book")
+    private int numberInBook;
+    @ManyToOne()
+    @JoinColumn(name = "book_id", nullable = false, insertable = false,updatable = false)
+    private Book book;
 
+    public Chapter(String chapterName, String chapterText, int numberInBook) {
+        this.chapterName = chapterName;
+        this.chapterText = chapterText;
+        this.numberInBook = numberInBook;
+    }
 }

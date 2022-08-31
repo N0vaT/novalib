@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "nl_genre")
-@NoArgsConstructor
 public class Genre {
 
     @Id
@@ -19,4 +19,7 @@ public class Genre {
     @Column(name = "genre_title")
     private String genreTitle;
 
+    public Genre(String genreTitle) {
+        this.genreTitle = genreTitle;
+    }
 }

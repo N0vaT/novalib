@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS nl_chapters
     chapter_name varchar(100) not null,
     chapter_text text not null,
     book_id integer not null,
+    number_in_book integer not null,
     PRIMARY KeY (chapter_id),
     FOREIGN KEY (book_id) REFERENCES nl_book (book_id)
 );
