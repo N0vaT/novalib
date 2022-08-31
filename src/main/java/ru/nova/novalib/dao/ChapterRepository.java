@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface ChapterRepository extends JpaRepository<Chapter, Long> {
     List<Chapter> findAllByBook(Book book, Sort sort);
+
+    Chapter findByBookAndChapterId(Book book, Long chapterId);
 }

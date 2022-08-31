@@ -4,7 +4,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.nova.novalib.dao.ChapterRepository;
 import ru.nova.novalib.domain.Book;
-import ru.nova.novalib.domain.BookPage;
 import ru.nova.novalib.domain.Chapter;
 
 import java.util.List;
@@ -19,9 +18,12 @@ public class ChapterService {
         this.chapterRepository = chapterRepository;
     }
 
-    public List<Chapter> getChaptersByIdSorted(Book book){
-
+    public List<Chapter> getChaptersByBookIdSorted(Book book){
         return chapterRepository.findAllByBook(book, Sort.by("numberInBook"));
+    }
+
+    public Chapter getChapterByBookAndChapterId(Book book, Long chapterId){
+        return chapterRepository.findByBookAndChapterId(book, chapterId);
     }
 
 

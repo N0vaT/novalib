@@ -27,8 +27,20 @@ public class BookController {
         if(book == null){
             return "";
         }
-        model.addAttribute("chaptersSort", chapterService.getChaptersByIdSorted(book));
+        model.addAttribute("chaptersSort", chapterService.getChaptersByBookIdSorted(book));
         model.addAttribute("book", book);
         return "book";
+    }
+
+    @GetMapping("/{bookId}/{chapterId}")
+    public String findChapterById(@PathVariable(name = "bookId") Long bookId, @PathVariable(name = "chapterId") Long chapterId, Model model){
+        Book book = bookService.findById(bookId);
+        if(book == null){
+            return "";
+        }
+        model.addAttribute("chapterPage", chapterService.getChapterByBookAndChapterId(book, chapterId));
+        model.addAttribute("chaptersSort", chapterService.getChaptersByBookIdSorted(book));
+        model.addAttribute("book", book);
+        return "bookPage";
     }
 }

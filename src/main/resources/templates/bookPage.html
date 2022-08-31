@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>NovaLib</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .media-info-list-fix{
+
+
+            position: sticky;
+            top: 0;
+        }
+        .scrollClass {
+        height:250px;
+        overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-xxl border">
+    <div class="media-info-list-fix p-2 ">
+        <div class="row">
+            <div class="col-4">
+                <a class="btn btn-primary" href="#">
+                    Предыдущая глава
+                </a>
+            </div>
+                <div class="col-4">
+                    <p>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Список всех глав
+                        </button>
+                    </p>
+                </div>
+            <div class="col-4">
+                <a class="btn btn-primary" href="#">
+                    Следующая глава
+                </a>
+            </div>
+        </div>
+
+
+        <div class="collapse" id="collapseExample">
+
+                <div class="form-select scrollClass">
+                    <div th:each="oneChapter:${chaptersSort}">
+                        <a class="list-group-item list-group-item-action" th:href="@{'/book/' + ${book.id} + '/' + ${oneChapter.chapterId}}" th:text="${oneChapter.chapterName}">Chapters</a>
+                    </div>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row border">
+        <p th:utext="${chapterPage.chapterText}"></p>
+    </div>
+</div>
+
+
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

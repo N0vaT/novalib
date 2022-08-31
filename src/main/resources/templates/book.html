@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" >
 <head>
-    <title>Панель администратора</title>
+    <title>NovaLib</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
     <style>
@@ -89,7 +89,7 @@
             </div>
             <div class="form-select scrollClass">
                 <div th:each="oneChapter:${chaptersSort}">
-                    <a class="list-group-item list-group-item-action" href="#" th:text="${oneChapter.chapterName}">Chapters</a>
+                    <a class="list-group-item list-group-item-action" th:href="@{'/book/' + ${book.id} + '/' + ${oneChapter.chapterId}}" th:text="${oneChapter.chapterName}">Chapters</a>
                 </div>
             </div>
 

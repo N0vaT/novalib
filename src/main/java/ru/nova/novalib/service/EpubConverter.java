@@ -116,6 +116,9 @@ public class EpubConverter {
 
     private String searchByTags(String text, String teg) {
         Document doc = Jsoup.parse(text);
+        if(teg.equals(TEG_BODY)){
+            return doc.getElementsByTag(teg).toString();
+        }
         return doc.getElementsByTag(teg).text();
     }
 
