@@ -21,37 +21,38 @@
 
 <div class="container-xxl border">
     <div class="media-info-list-fix p-2 ">
-        <div class="row">
-            <div class="col-4">
-                <a class="btn btn-primary" href="#">
-                    Предыдущая глава
-                </a>
-            </div>
-                <div class="col-4">
-                    <p>
+            <nav aria-label="Пример навигации по страницам">
+                <ul class="pagination justify-content-center">
+                    <li th:if="${previousId!=null}" class="page-item">
+                        <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${previousId}}">Предыдущая</a>
+                    </li>
+                    <li th:if="${previousId == null}" class="page-item disabled">
+                        <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Предыдущая</a>
+                    </li>
+                    <li class="page-item">
+                        <p>
                         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             Список всех глав
                         </button>
-                    </p>
-                </div>
-            <div class="col-4">
-                <a class="btn btn-primary" href="#">
-                    Следующая глава
-                </a>
-            </div>
-        </div>
+                        </p>
+                    </li>
+                    <li th:if="${nextId!=null}" class="page-item">
+                        <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая</a>
+                    </li>
+                    <li th:if="${nextId == null}" class="page-item disabled">
+                        <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая</a>
+                    </li>
+                </ul>
+            </nav>
 
-
-        <div class="collapse" id="collapseExample">
+            <div class="collapse" id="collapseExample">
 
                 <div class="form-select scrollClass">
                     <div th:each="oneChapter:${chaptersSort}">
                         <a class="list-group-item list-group-item-action" th:href="@{'/book/' + ${book.id} + '/' + ${oneChapter.chapterId}}" th:text="${oneChapter.chapterName}">Chapters</a>
                     </div>
-
+                </div>
             </div>
-        </div>
-
 
     </div>
     <div class="row border">

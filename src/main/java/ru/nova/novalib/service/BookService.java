@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.nova.novalib.dao.BookRepository;
 import ru.nova.novalib.domain.Book;
-import ru.nova.novalib.domain.BookPage;
 
 import java.util.List;
 
@@ -38,9 +37,9 @@ public class BookService {
         return bookRepository.findById(id).orElse(null);
     }
 
-    public Page<Book> getBooks(BookPage bookPage){
-        Sort sort = Sort.by(bookPage.getSortDirection(), bookPage.getSortBy());
-        Pageable pageable = PageRequest.of(bookPage.getPageNumber(), bookPage.getPageSize(), sort);
-        return bookRepository.findAll(pageable);
-    }
+//    public Page<Book> getBooks(BookPage bookPage){
+//        Sort sort = Sort.by(bookPage.getSortDirection(), bookPage.getSortBy());
+//        Pageable pageable = PageRequest.of(bookPage.getPageNumber(), bookPage.getPageSize(), sort);
+//        return bookRepository.findAll(pageable);
+//    }
 }

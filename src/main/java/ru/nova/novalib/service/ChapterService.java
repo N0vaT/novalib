@@ -1,5 +1,8 @@
 package ru.nova.novalib.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.nova.novalib.dao.ChapterRepository;
@@ -22,8 +25,13 @@ public class ChapterService {
         return chapterRepository.findAllByBook(book, Sort.by("numberInBook"));
     }
 
-    public Chapter getChapterByBookAndChapterId(Book book, Long chapterId){
-        return chapterRepository.findByBookAndChapterId(book, chapterId);
+    public Chapter getChapterByChapterId(Long chapterId){
+        return chapterRepository.findByChapterId(chapterId);
+    }
+
+    public List<Chapter> getChaptersPage(Book book){
+        Sort sort = Sort.by(Sort.Direction.ASC, "numberInBook");
+        return chapterRepository.findAllByBook(book, sort);
     }
 
 

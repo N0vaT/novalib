@@ -1,13 +1,20 @@
 package ru.nova.novalib.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.nova.novalib.domain.Book;
+import ru.nova.novalib.domain.Chapter;
 import ru.nova.novalib.service.BookService;
 import ru.nova.novalib.service.ChapterService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/book")
@@ -38,9 +45,22 @@ public class BookController {
         if(book == null){
             return "";
         }
-        model.addAttribute("chapterPage", chapterService.getChapterByBookAndChapterId(book, chapterId));
-        model.addAttribute("chaptersSort", chapterService.getChaptersByBookIdSorted(book));
+        List<Chapter> chaptersPage = chapterService.getChaptersPage(book);
+        Chapter chapterByChapterId = chapterService.getChapterByChapterId(chapterId);
+        int index = chaptersPage.indexOf(chapterByChapterId);
+        Long previousId = null;
+        Long nextId = null;
+        if(chaptersPage.listIterator(index).hasPrevious()) {
+            previousId = chaptersPage.listIterator(index).previous().getChapterId();
+        }
+        if(chaptersPage.listIterator(index+1).hasNext()) {
+            nextId = chaptersPage.listIterator(index+1).next().getChapterId();
+        }
+        model.addAttribute("chapterPage", chapterByChapterId);
+        model.addAttribute("chaptersPage",  chaptersPage);
         model.addAttribute("book", book);
+        model.addAttribute("previousId", previousId);
+        model.addAttribute("nextId", nextId);
         return "bookPage";
     }
 }
