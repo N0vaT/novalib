@@ -29,7 +29,8 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        return bookRepository.findAll(sort);
     }
 
     @Transactional(readOnly = true)

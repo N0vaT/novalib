@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>NovaLib</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
+    <style>
+    .card-img-top {
+        width: 90%;
+        height: 13vw;
+        object-fit: cover;
+    }
+    .media-info-list{
+        background-color: #397DD5;
+        color: #ffff;
+    }
+    </style>
+</head>
+<body>
+
+<header th:insert="blocks/header" ::header></header>
+
+<div class="container-xxl border">
+
+            <div class="row border">
+                <div class="col-2 border" th:each="book: ${bookList}">
+                    <img th:src="@{/posters/{name}(name=${book.posterName})}" class="card-img-top mx-auto d-block" width="175px" height="238px">
+
+
+                </div>
+            </div>
+            <div class="row border">
+                <div class="col-2 border media-info-list text-center" th:each="book: ${bookList}">
+                    <a class="text-light" th:href="@{'/book/' + ${book.id}}" th:text="${book.title}">Title</a>
+                </div>
+            </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+
+
+
+
+</div>
+
+<header th:insert="blocks/footer" ::footer></header>
+
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
