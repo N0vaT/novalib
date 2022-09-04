@@ -10,6 +10,8 @@ import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.Chapter;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 
 @Service
@@ -21,17 +23,15 @@ public class ChapterService {
         this.chapterRepository = chapterRepository;
     }
 
-    public List<Chapter> getChaptersByBookIdSorted(Book book){
-        return chapterRepository.findAllByBook(book, Sort.by("numberInBook"));
-    }
-
     public Chapter getChapterByChapterId(Long chapterId){
         return chapterRepository.findByChapterId(chapterId);
     }
 
     public List<Chapter> getChaptersPage(Book book){
         Sort sort = Sort.by(Sort.Direction.ASC, "numberInBook");
-        return chapterRepository.findAllByBook(book, sort);
+        return StreamSupport
+                .stream(chapterRepository.findAllByBook(book, sort).spliterator(), false)
+                .collect(Collectors.toList());
     }
 
 

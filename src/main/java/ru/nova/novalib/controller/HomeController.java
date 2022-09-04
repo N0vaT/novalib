@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.nova.novalib.domain.BookPage;
 import ru.nova.novalib.service.BookService;
 
 @Controller
@@ -23,7 +24,10 @@ public class HomeController {
     }
 
     @GetMapping
-    public String index(){
+    public String index(Model model){
+        BookPage bookPage = new BookPage();
+        bookPage.setPageSize(6);
+        model.addAttribute("bookList6", bookService.getBooks(bookPage));
         return "index";
     }
 }

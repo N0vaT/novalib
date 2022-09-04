@@ -130,7 +130,7 @@
                 <div class="media-info-list p-2">
                     Выберите жанр:
                 </div>
-                <select class="form-select" th:field="${genreForm.genreId}" size="4" aria-label="size 3 select example" form="genreForm">
+                <select class="form-select" th:field="${genreForm.genreId}" size="8" aria-label="size 3 select example" form="genreForm">
                     <option th:each="oneGenre:${genreList}" th:value="${oneGenre.genreId}" th:text="${oneGenre.genreTitle}"></option>
                 </select>
                 <span class="input-group-text">

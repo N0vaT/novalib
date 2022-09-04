@@ -23,17 +23,12 @@
 <div class="container-xxl border">
 
             <div class="row border">
-                <div class="col-2 border" th:each="book: ${bookList}">
+                <div class="col-2 border text-center" th:each="book: ${bookList6}">
                     <img th:src="@{/posters/{name}(name=${book.posterName})}" class="card-img-top mx-auto d-block" width="175px" height="238px">
-
-
+                        <a class="list-group-item-action" th:href="@{'/book/' + ${book.id}}" th:text="${book.title}">Title</a>
                 </div>
             </div>
-            <div class="row border">
-                <div class="col-2 border media-info-list text-center" th:each="book: ${bookList}">
-                    <a class="text-light" th:href="@{'/book/' + ${book.id}}" th:text="${book.title}">Title</a>
-                </div>
-            </div>
+
 
     <br/>
     <br/>

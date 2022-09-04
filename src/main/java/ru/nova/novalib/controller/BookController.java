@@ -30,7 +30,7 @@ public class BookController {
         if(book == null){
             return "";
         }
-        model.addAttribute("chaptersSort", chapterService.getChaptersByBookIdSorted(book));
+        model.addAttribute("chaptersSort", chapterService.getChaptersPage(book));
         model.addAttribute("book", book);
         return "book";
     }
