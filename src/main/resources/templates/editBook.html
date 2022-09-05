@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Панель администратора</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .media-info-list_title{
+            color: #9E9E9E;
+        }
+        .media-info-list{
+        background-color: #397DD5;
+        color: #ffff;
+        }
+    </style>
+</head>
+<body>
+<header th:insert="blocks/header" ::header></header>
+<div class="container-xxl border">
+    <div class="row border">
+            <div class="col-4 border">
+            <img th:src="@{/posters/{name}(name=${book.posterName})}" class="img-fluid mx-auto d-block" width="175px" height="238px">
+            <a class="btn btn-success mx-auto d-block" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                Загрузить новый постер
+            </a>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Загрузите новое изображение</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+                </div>
+
+                <form th:method="put" enctype="multipart/form-data" th:action="@{/book/edit/{id}/poster (id=${book.id})}" id="posterLoud">
+                    <input class="form-control" type="file" name="file">
+                    <br/>
+                    <button type="submit" class="btn btn-primary mb-3" form="posterLoud">Загрузить</button>
+                </form>
+            </div>
+                <br/>
+
+                <div class="media-info-list p-2">
+                    Изменить жанр:
+                </div>
+                <div th:each="oneGenre: ${book.genres}">
+                    <form th:method="delete"  th:action="@{/book/edit/{id}/genre/{genreId} (id=${book.id}, genreId=${oneGenre.genreId})}" th:object="${oneGenre}" >
+                        <div class="input-group mb-1 border">
+                            <input type="text" class="form-control" placeholder="Жанр" th:value="*{genreTitle}" disabled>
+                            <button class="btn btn-outline-danger" type="submit">Удалить</button>
+                        </div>
+                    </form>
+                </div>
+                <form th:method="post" th:action="@{/book/edit/{id}/genre (id=${book.id})}" id="genreForm">
+                    <select class="form-select" th:field="${genre.genreId}" size="6" aria-label="size 3 select example" form="genreForm">
+                        <option th:each="oneGenre:${genres}" th:value="${oneGenre.genreId}" th:text="${oneGenre.genreTitle}"></option>
+                    </select>
+                    <button type="submit" class="btn btn-outline-success mx-auto d-block" form="genreForm">Добавить жанр</button>
+                </form>
+
+
+            </div>
+        <div class="col-8 border">
+            <form th:method="put" th:action="@{/book/edit/{id}/title (id=*{id})}" th:object="${book}" id="bookTitleForm">
+                <div class="media-info-list p-2">
+                    Изменить название книги:
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Название" th:field="*{title}">
+                    <button class="btn btn-outline-success" type="submit" form="bookTitleForm">Изменить</button>
+                </div>
+            </form>
+
+                <div class="media-info-list p-2">
+                    Изменить автора:
+                </div>
+                <div th:each="oneAuthor: ${book.authors}">
+                        <form th:method="delete"  th:action="@{/book/edit/{id}/author/{authorId} (id=${book.id}, authorId=${oneAuthor.authorId})}" th:object="${oneAuthor}" >
+                            <div class="input-group mb-1 border">
+                    <input type="text" class="form-control" placeholder="Автор" th:value="*{authorName}" disabled>
+                    <button class="btn btn-outline-danger" type="submit">Удалить</button>
+                            </div>
+                        </form>
+                </div>
+
+            <form th:method="post" th:action="@{/book/edit/{id}/author (id=${book.id})}" th:object="${author}" id="authorEditForm">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Автор" th:field="*{authorName}">
+                <button class="btn btn-outline-success" type="submit" form="authorEditForm">Добавить</button>
+            </div>
+            </form>
+
+            <form th:method="put" th:action="@{/book/edit/{id}/publisher (id=*{id})}" th:object="${book}" id="bookPublisherForm">
+                <div class="media-info-list p-2">
+                    Изменить издательство:
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Издательство" th:field="*{publisher}">
+                    <button class="btn btn-outline-success" type="submit" form="bookPublisherForm">Изменить</button>
+                </div>
+            </form>
+
+            <form th:method="put" th:action="@{/book/edit/{id}/yearPublished (id=*{id})}" th:object="${book}" id="bookYearPublishedForm">
+                <div class="media-info-list p-2">
+                    Изменить год издания:
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Год издания" th:field="*{yearPublished}">
+                    <button class="btn btn-outline-success" type="submit" form="bookYearPublishedForm">Изменить</button>
+                </div>
+            </form>
+
+            <form th:method="put" th:action="@{/book/edit/{id}/country (id=*{id})}" th:object="${book}" id="bookCountryForm">
+                <div class="media-info-list p-2">
+                    Изменить страну:
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Страна" th:field="*{country}">
+                    <button class="btn btn-outline-success" type="submit" form="bookCountryForm">Изменить</button>
+                </div>
+            </form>
+
+            <form th:method="put" th:action="@{/book/edit/{id}/description (id=*{id})}" th:object="${book}" id="bookDescriptionForm">
+                <div class="media-info-list p-2">
+                    Изменить описание:
+                </div>
+                <div class="input-group mb-3">
+                    <textarea class="form-control" placeholder="Описание" style="height: 200px" th:field="*{description}" form="bookDescriptionForm"></textarea>
+                    <button class="btn btn-outline-success" type="submit" form="bookDescriptionForm">Изменить</button>
+                </div>
+            </form>
+
+
+
+
+        </div>
+    </div>
+
+</div>
+
+<header th:insert="blocks/footer" ::footer></header>
+
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

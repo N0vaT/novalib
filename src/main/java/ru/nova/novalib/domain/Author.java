@@ -1,15 +1,15 @@
 package ru.nova.novalib.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 @Table(name = "nl_author")

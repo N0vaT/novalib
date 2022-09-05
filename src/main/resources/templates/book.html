@@ -91,13 +91,18 @@
             </div>
             <div class="form-select scrollClass">
                 <div th:each="oneChapter:${chaptersSort}">
+                    <form id="deleteChapter" th:method="delete" th:action="@{'/book/' + ${book.id}}">
                     <a class="list-group-item list-group-item-action" th:href="@{'/book/' + ${book.id} + '/' + ${oneChapter.chapterId}}" th:text="${oneChapter.chapterName}">Chapters</a>
+                    </form>
                 </div>
             </div>
         </div>
         <form id="deleteBook" th:method="delete" th:action="@{'/book/' + ${book.id}}">
-        <button type="submit" class="btn btn-danger " form="deleteBook">Удалить книгу</button>
         </form>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a th:href="@{'/book/edit/' + ${book.id}}" class="btn btn-outline-success" role="button">Редактировать книгу</a>
+            <button type="submit" class="btn btn-outline-danger" form="deleteBook">Удалить книгу</button>
+        </div>
     </div>
 </div>
 

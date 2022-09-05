@@ -9,10 +9,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.nova.novalib.dao.BookRepository;
+import ru.nova.novalib.domain.Author;
 import ru.nova.novalib.domain.Book;
+import ru.nova.novalib.domain.Genre;
 import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.domain.paging.Paging;
+import ru.nova.novalib.exception.AuthorNotFoundException;
 import ru.nova.novalib.exception.BookNotFoundException;
+import ru.nova.novalib.exception.GenreNotFoundException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -80,5 +84,17 @@ public class BookService {
             System.err.println(e);
         }
         log.warn("Book with title: {}; id: {} is delete", book.getTitle(), id);
+    }
+
+    public Book deleteAuthor(Book book, Long authorId){
+        Author author = book.getAuthors().stream().filter(a -> a.getAuthorId() == authorId).findFirst().orElseThrow(() -> new AuthorNotFoundException(authorId));
+        book.deleteAuthor(author);
+        return book;
+    }
+
+    public Book deleteGenre(Book book, Long genreId) {
+        Genre genre = book.getGenres().stream().filter(a -> a.getGenreId() == genreId).findFirst().orElseThrow(() -> new GenreNotFoundException(genreId));
+        book.deleteGenre(genre);
+        return book;
     }
 }

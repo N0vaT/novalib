@@ -8,6 +8,7 @@ import java.util.*;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 @Table(name = "nl_book")
@@ -50,8 +51,16 @@ public class Book {
         authors.add(author);
     }
 
+    public void deleteAuthor(Author author){
+        authors.remove(author);
+    }
+
     public void addGenre(Genre genre){
         genres.add(genre);
+    }
+
+    public void deleteGenre(Genre genre){
+        genres.remove(genre);
     }
 
     public void addChapters(Chapter chapter){
