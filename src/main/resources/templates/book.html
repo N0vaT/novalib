@@ -94,10 +94,13 @@
                     <a class="list-group-item list-group-item-action" th:href="@{'/book/' + ${book.id} + '/' + ${oneChapter.chapterId}}" th:text="${oneChapter.chapterName}">Chapters</a>
                 </div>
             </div>
-
         </div>
+        <form id="deleteBook" th:method="delete" th:action="@{'/book/' + ${book.id}}">
+        <button type="submit" class="btn btn-danger " form="deleteBook">Удалить книгу</button>
+        </form>
     </div>
 </div>
+
 
 <header th:insert="blocks/footer" ::footer></header>
 

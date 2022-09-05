@@ -2,6 +2,7 @@ package ru.nova.novalib.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +60,13 @@ public class BookController {
         model.addAttribute("nextId", nextId);
         return "bookPage";
     }
+
+    @DeleteMapping("/{bookId}")
+    public String deleteBook(@PathVariable(name = "bookId") Long bookId){
+        bookService.deleteBook(bookId);
+        return "redirect:/admin";
+    }
+
 
     @GetMapping("/random")
     public String findBookById(){

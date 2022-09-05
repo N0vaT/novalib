@@ -6,7 +6,8 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.util.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "nl_book")

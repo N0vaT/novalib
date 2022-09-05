@@ -1,6 +1,8 @@
 package ru.nova.novalib.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -12,12 +14,21 @@ import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.domain.paging.Paging;
 import ru.nova.novalib.exception.BookNotFoundException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 @Service
 public class BookService {
+
+    @Value("${upload.path}")
+    private String uploadPath;
+    @Value("${upload.posterFile.path}")
+    private String uploadPosterFilePath;
 
     private BookRepository bookRepository;
 
@@ -54,5 +65,20 @@ public class BookService {
         List<Book> all = bookRepository.findAll();
         long x = (long) (Math.random() * all.size()+1);
         return x;
+    }
+
+    @Transactional
+    public void deleteBook(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        String posterPath = uploadPosterFilePath + book.getPosterName();
+        String filePath = uploadPath + book.getFileName();
+        bookRepository.deleteById(id);
+        try {
+            Files.deleteIfExists(Paths.get(filePath));
+            Files.deleteIfExists(Paths.get(posterPath));
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        log.warn("Book with title: {}; id: {} is delete", book.getTitle(), id);
     }
 }
