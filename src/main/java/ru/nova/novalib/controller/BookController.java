@@ -59,4 +59,9 @@ public class BookController {
         model.addAttribute("nextId", nextId);
         return "bookPage";
     }
+
+    @GetMapping("/random")
+    public String findBookById(){
+        return "redirect:/book/"+bookService.random();
+    }
 }

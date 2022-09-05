@@ -3,13 +3,11 @@ package ru.nova.novalib.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.nova.novalib.dao.BookRepository;
 import ru.nova.novalib.domain.Book;
-import ru.nova.novalib.domain.BookPage;
 import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.domain.paging.Paging;
 import ru.nova.novalib.exception.BookNotFoundException;
@@ -46,15 +44,15 @@ public class BookService {
         return bookRepository.findById(id).orElseThrow(()->new BookNotFoundException(id));
     }
 
-    public Page<Book> getBooks(BookPage bookPage){
-        Sort sort = Sort.by(bookPage.getSortDirection(), bookPage.getSortBy());
-        Pageable pageable = PageRequest.of(bookPage.getPageNumber(), bookPage.getPageSize(), sort);
-        return bookRepository.findAll(pageable);
-    }
-
     public Paged<Book> getPage(int pageNumber, int size){
         PageRequest request = PageRequest.of(pageNumber - 1, size, Sort.Direction.ASC, "id");
         Page<Book> bookPage = bookRepository.findAll(request);
         return new Paged<>(bookPage, Paging.of(bookPage.getTotalPages(), pageNumber, size));
+    }
+
+    public long random() {
+        List<Book> all = bookRepository.findAll();
+        long x = (long) (Math.random() * all.size()+1);
+        return x;
     }
 }
