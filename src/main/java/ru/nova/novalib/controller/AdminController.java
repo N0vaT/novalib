@@ -12,8 +12,8 @@ import ru.nova.novalib.service.FileUploadService;
 @SessionAttributes("book")
 public class AdminController {
 
-    private FileUploadService fileUploadService;
-    private BookService bookService;
+    private final FileUploadService fileUploadService;
+    private final BookService bookService;
 
     public AdminController(FileUploadService fileUploadService, BookService bookService) {
         this.fileUploadService = fileUploadService;

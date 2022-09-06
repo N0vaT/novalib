@@ -26,9 +26,4 @@ public class Chapter {
     @JoinColumn(name = "book_id", nullable = false, insertable = false,updatable = false)
     private Book book;
 
-    public Chapter(String chapterName, String chapterText, int numberInBook) {
-        this.chapterName = chapterName;
-        this.chapterText = chapterText;
-        this.numberInBook = numberInBook;
-    }
 }

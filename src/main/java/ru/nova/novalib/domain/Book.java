@@ -66,8 +66,4 @@ public class Book {
     chapters.add(chapter);
     }
 
-    public void deleteChapter(Genre genre){
-        genres.remove(genre);
-    }
-
 }

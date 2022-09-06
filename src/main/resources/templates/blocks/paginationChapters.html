@@ -15,7 +15,7 @@
             </li>
         </th:block>
         <li class="page-item" th:classappend="${!chapters.paging.isNextEnabled()? 'disabled' : ''}">
-            <a class="page-link" th:href="@{'?pageNumber=' + ${chapters.paging.pageNumber + 1}}">Следующая</a>
+            <a class="page-link" th:href="@{'?pageNumber=' + ${chapters.paging.pageNumber + 1}}">Следующая страница</a>
         </li>
     </ul>
 </nav>

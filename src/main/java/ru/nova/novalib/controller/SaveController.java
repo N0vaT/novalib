@@ -19,10 +19,10 @@ import ru.nova.novalib.service.GenreService;
 @RequestMapping("/admin/books/save")
 @SessionAttributes("book")
 public class SaveController {
-    private BookService bookService;
-    private GenreService genreService;
-    private AuthorService authorService;
-    private FileUploadService fileUploadService;
+    private final BookService bookService;
+    private final GenreService genreService;
+    private final AuthorService authorService;
+    private final FileUploadService fileUploadService;
 
     public SaveController(BookService bookService, GenreService genreService, AuthorService authorService, FileUploadService fileUploadService) {
         this.bookService = bookService;
@@ -60,17 +60,13 @@ public class SaveController {
 
     @PostMapping("/genre")
     public String addGenre( Genre genre, @ModelAttribute Book book){
-        System.out.println("");
         book.addGenre(genreService.findById(genre.getGenreId()));
-        System.out.println("");
         return "redirect:/admin/books/save";
     }
 
     @PostMapping("/author")
     public String addAuthor( Author author, @ModelAttribute Book book){
-        System.out.println("");
         book.addAuthor(authorService.existByName(author.getAuthorName()));
-        System.out.println("");
         return "redirect:/admin/books/save";
     }
 

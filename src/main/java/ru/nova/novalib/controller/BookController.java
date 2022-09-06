@@ -14,8 +14,8 @@ import java.util.List;
 @RequestMapping("/book")
 public class BookController {
 
-    private BookService bookService;
-    private ChapterService chapterService;
+    private final BookService bookService;
+    private final ChapterService chapterService;
 
     public BookController(BookService bookService, ChapterService chapterService) {
         this.bookService = bookService;

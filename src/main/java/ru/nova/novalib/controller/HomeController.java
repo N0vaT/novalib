@@ -3,7 +3,6 @@ package ru.nova.novalib.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.nova.novalib.service.BookService;
 
@@ -11,7 +10,7 @@ import ru.nova.novalib.service.BookService;
 @RequestMapping("/")
 public class HomeController {
 
-    private BookService bookService;
+    private final BookService bookService;
 
     public HomeController(BookService bookService) {
         this.bookService = bookService;

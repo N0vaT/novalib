@@ -15,11 +15,11 @@ import ru.nova.novalib.service.*;
 @SessionAttributes("book")
 public class BookEditController {
 
-    private BookService bookService;
-    private AuthorService authorService;
-    private GenreService genreService;
-    private FileUploadService fileUploadService;
-    private ChapterService chapterService;
+    private final BookService bookService;
+    private final AuthorService authorService;
+    private final GenreService genreService;
+    private final FileUploadService fileUploadService;
+    private final ChapterService chapterService;
 
     public BookEditController(BookService bookService, AuthorService authorService, GenreService genreService, FileUploadService fileUploadService, ChapterService chapterService) {
         this.bookService = bookService;

@@ -16,6 +16,10 @@
         height:350px;
         overflow-y: scroll;
         }
+        .media-info-list-fix {
+        position: sticky;
+            top: 0;
+        }
 
     </style>
 </head>
@@ -26,6 +30,7 @@
 <div class="container-xxl border">
     <div class="row border">
         <div class="col-3 border">
+            <div class="media-info-list-fix">
             <br/>
                 <img th:src="@{/posters/{name}(name=${book.posterName})}" class="img-fluid mx-auto d-block" width="250px" height="350px">
             <br/>
@@ -62,6 +67,7 @@
             <div class="row px-2">
                 <div class="media-info-list_title">Страна:</div>
                 <div th:text="${book.country}">Country</div>
+            </div>
             </div>
             </div>
         </div>

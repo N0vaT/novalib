@@ -81,19 +81,19 @@ public class BookService {
             Files.deleteIfExists(Paths.get(filePath));
             Files.deleteIfExists(Paths.get(posterPath));
         } catch (IOException e) {
-            System.err.println(e);
+            e.printStackTrace();
         }
         log.warn("Book with title: {}; id: {} is delete", book.getTitle(), id);
     }
 
     public Book deleteAuthor(Book book, Long authorId){
-        Author author = book.getAuthors().stream().filter(a -> a.getAuthorId() == authorId).findFirst().orElseThrow(() -> new AuthorNotFoundException(authorId));
+        Author author = book.getAuthors().stream().filter(a -> a.getAuthorId().equals(authorId)).findFirst().orElseThrow(() -> new AuthorNotFoundException(authorId));
         book.deleteAuthor(author);
         return book;
     }
 
     public Book deleteGenre(Book book, Long genreId) {
-        Genre genre = book.getGenres().stream().filter(a -> a.getGenreId() == genreId).findFirst().orElseThrow(() -> new GenreNotFoundException(genreId));
+        Genre genre = book.getGenres().stream().filter(a -> a.getGenreId().equals(genreId)).findFirst().orElseThrow(() -> new GenreNotFoundException(genreId));
         book.deleteGenre(genre);
         return book;
     }

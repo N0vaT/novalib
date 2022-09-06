@@ -14,7 +14,7 @@ public class GenreService {
 
     private GenreRepository genreRepository;
 
-    @Autowired
+
     public GenreService(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
