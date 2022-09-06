@@ -1,5 +1,6 @@
 package ru.nova.novalib.controller;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,8 @@ public class HomeController {
 
     @GetMapping
     public String index(Model model){
-        model.addAttribute("bookList6", bookService.getPage(1, 6));
+        model.addAttribute("ratingList", bookService.getPage(1, 6, "rating", Sort.Direction.DESC));
+        model.addAttribute("dateList", bookService.getPage(1, 6, "id", Sort.Direction.DESC));
         return "index";
     }
 }

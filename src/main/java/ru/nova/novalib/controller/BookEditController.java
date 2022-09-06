@@ -117,4 +117,11 @@ public class BookEditController {
         chapterService.deleteById(chapterId);
         return "redirect:/book/edit/" + bookId;
     }
+
+    @PutMapping("/{bookId}/rating")
+    public String editRating(@PathVariable(name = "bookId") Long bookId, Book book, SessionStatus sessionStatus){
+        bookService.save(book);
+        sessionStatus.setComplete();
+        return "redirect:/book/edit/" + bookId;
+    }
 }

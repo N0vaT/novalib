@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS nl_book
     book_description varchar(800) not null,
     book_file_name varchar(200) not null,
     book_poster_name varchar(200) not null,
+    book_rating numeric(3, 2) DEFAULT 0.0,
     PRIMARY KEY (book_id)
 );
 

@@ -43,6 +43,8 @@ public class Book {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "book_id",nullable = false)
     private List<Chapter> chapters = new ArrayList<>();
+    @Column(name = "book_rating")
+    private Double rating;
 
 
 

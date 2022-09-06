@@ -105,6 +105,11 @@
                 <input type="text" class="form-control" placeholder="Страна" form="bookForm" th:field="*{country}">
 
                 <div class="media-info-list p-2">
+                    Введите первоначальный рейтинг:
+                </div>
+                <input type="text" class="form-control" placeholder="0.00" form="bookForm" th:field="*{rating}">
+
+                <div class="media-info-list p-2">
                     Введите описание:
                 </div>
                 <textarea class="form-control" placeholder="Описание" style="height: 100px" th:field="*{description}" form="bookForm"></textarea>

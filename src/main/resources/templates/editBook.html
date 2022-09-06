@@ -131,13 +131,22 @@
                 </div>
             </form>
 
+            <form th:method="put" th:action="@{/book/edit/{id}/rating (id=*{id})}" th:object="${book}" id="bookRatingForm">
+                <div class="media-info-list p-2">
+                    Изменить рейтинг:
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Рейтинг * 0.00" th:field="*{rating}">
+                    <button class="btn btn-outline-success" type="submit" form="bookRatingForm">Изменить</button>
+                </div>
+            </form>
+
         </div>
     </div>
 
     <div class="media-info-list p-2">
         Список глав
     </div>
-
     <div class="form-select scrollClass">
 
         <header th:insert="blocks/paginationChapters"></header>

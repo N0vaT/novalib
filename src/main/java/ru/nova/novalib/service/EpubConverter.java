@@ -82,6 +82,7 @@ public class EpubConverter {
                 int count = 0; // порядок глав в книге (для упорядочения)
                 for (Map.Entry<String, String> entry : chapterSrc.entrySet()) { // Если Главы существуют, добавляем их в книгу
                     String chapterName = entry.getKey();
+                    if(chapterName.equalsIgnoreCase("Cover")|| chapterName.equalsIgnoreCase(title)) continue;
                     String src = entry.getValue();
                     String chapterText = addString(zf, zf.getEntry(src));
                     if(chapterText.isEmpty()) continue;

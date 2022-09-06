@@ -21,6 +21,7 @@ import ru.nova.novalib.exception.GenreNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -59,16 +60,17 @@ public class BookService {
         return bookRepository.findById(id).orElseThrow(()->new BookNotFoundException(id));
     }
 
-    public Paged<Book> getPage(int pageNumber, int size){
-        PageRequest request = PageRequest.of(pageNumber - 1, size, Sort.Direction.ASC, "id");
+    public Paged<Book> getPage(int pageNumber, int size, String field, Sort.Direction sort){
+        PageRequest request = PageRequest.of(pageNumber - 1, size, sort, field);
         Page<Book> bookPage = bookRepository.findAll(request);
         return new Paged<>(bookPage, Paging.of(bookPage.getTotalPages(), pageNumber, size));
     }
 
     public long random() {
         List<Book> all = bookRepository.findAll();
-        long x = (long) (Math.random() * all.size()+1);
-        return x;
+        Collections.shuffle(all);
+        int x = (int) (Math.random() * all.size());
+        return all.get(x).getId();
     }
 
     @Transactional
