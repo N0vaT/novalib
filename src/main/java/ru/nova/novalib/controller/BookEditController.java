@@ -8,11 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.nova.novalib.domain.Author;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.Genre;
-import ru.nova.novalib.exception.AuthorNotFoundException;
-import ru.nova.novalib.service.AuthorService;
-import ru.nova.novalib.service.BookService;
-import ru.nova.novalib.service.FileUploadService;
-import ru.nova.novalib.service.GenreService;
+import ru.nova.novalib.service.*;
 
 @Controller
 @RequestMapping("/book/edit")
@@ -23,20 +19,26 @@ public class BookEditController {
     private AuthorService authorService;
     private GenreService genreService;
     private FileUploadService fileUploadService;
+    private ChapterService chapterService;
 
-    public BookEditController(BookService bookService, AuthorService authorService, GenreService genreService, FileUploadService fileUploadService) {
+    public BookEditController(BookService bookService, AuthorService authorService, GenreService genreService, FileUploadService fileUploadService, ChapterService chapterService) {
         this.bookService = bookService;
         this.authorService = authorService;
         this.genreService = genreService;
         this.fileUploadService = fileUploadService;
+        this.chapterService = chapterService;
     }
 
     @GetMapping("/{bookId}")
-    public String editBookPage(@PathVariable(name = "bookId") Long bookId, Model model){
-        model.addAttribute("book", bookService.findById(bookId));
+    public String editBookPage(@PathVariable(name = "bookId") Long bookId,
+                               @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                               @RequestParam(value = "size", required = false, defaultValue = "100") int size, Model model){
+        Book book = bookService.findById(bookId);
+        model.addAttribute("book", book);
         model.addAttribute("author", new Author());
         model.addAttribute("genre", new Genre());
         model.addAttribute("genres", genreService.findAll());
+        model.addAttribute("chapters", chapterService.getPage(book, pageNumber, size));
         return "editBook";
     }
 
@@ -108,6 +110,11 @@ public class BookEditController {
         fileUploadService.savePoster(file, book);
         bookService.save(book);
         sessionStatus.setComplete();
+        return "redirect:/book/edit/" + bookId;
+    }
+    @DeleteMapping("/{bookId}/chapter/{chapterId}")
+    public String editChapter(@PathVariable(name = "bookId") Long bookId, @PathVariable(name = "chapterId") Long chapterId){
+        chapterService.deleteById(chapterId);
         return "redirect:/book/edit/" + bookId;
     }
 }

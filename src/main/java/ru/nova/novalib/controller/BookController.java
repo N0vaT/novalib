@@ -23,12 +23,14 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String findBookById(@PathVariable(name = "id") Long id, Model model){
+    public String findBookById(@PathVariable(name = "id") Long id,
+                               @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                               @RequestParam(value = "size", required = false, defaultValue = "100") int size, Model model){
         Book book = bookService.findById(id);
         if(book == null){
             return "";
         }
-        model.addAttribute("chaptersSort", chapterService.getChaptersPage(book));
+        model.addAttribute("chapters", chapterService.getPage(book, pageNumber, size));
         model.addAttribute("book", book);
         return "book";
     }

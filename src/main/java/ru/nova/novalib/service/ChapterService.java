@@ -2,12 +2,13 @@ package ru.nova.novalib.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.nova.novalib.dao.ChapterRepository;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.Chapter;
+import ru.nova.novalib.domain.paging.Paged;
+import ru.nova.novalib.domain.paging.Paging;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,5 +35,13 @@ public class ChapterService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteById(Long chapterId) {
+        chapterRepository.deleteById(chapterId);
+    }
 
+    public Paged<Chapter> getPage(Book book, int pageNumber, int size){
+        PageRequest request = PageRequest.of(pageNumber - 1, size, Sort.Direction.ASC, "numberInBook");
+        Page<Chapter> chapterPage = chapterRepository.findAllByBook(book, request);
+        return new Paged<>(chapterPage, Paging.of(chapterPage.getTotalPages(), pageNumber, size));
+    }
 }

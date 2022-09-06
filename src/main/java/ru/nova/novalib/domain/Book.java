@@ -1,7 +1,6 @@
 package ru.nova.novalib.domain;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.*;
@@ -63,8 +62,12 @@ public class Book {
         genres.remove(genre);
     }
 
-    public void addChapters(Chapter chapter){
+    public void addChapter(Chapter chapter){
     chapters.add(chapter);
+    }
+
+    public void deleteChapter(Genre genre){
+        genres.remove(genre);
     }
 
 }

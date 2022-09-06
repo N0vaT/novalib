@@ -90,13 +90,16 @@
                 Список глав
             </div>
             <div class="form-select scrollClass">
-                <div th:each="oneChapter:${chaptersSort}">
-                    <form id="deleteChapter" th:method="delete" th:action="@{'/book/' + ${book.id}}">
-                    <a class="list-group-item list-group-item-action" th:href="@{'/book/' + ${book.id} + '/' + ${oneChapter.chapterId}}" th:text="${oneChapter.chapterName}">Chapters</a>
-                    </form>
+
+                <header th:insert="blocks/paginationChapters"></header>
+                <div th:each="oneChapter:${chapters.page}">
+                        <div class="input-group mb-1 border">
+                            <a class="form-control list-group-item list-group-item-action" th:href="@{'/book/' + ${book.id} + '/' + ${oneChapter.chapterId}}" th:text="${oneChapter.chapterName}">Chapters</a>
+                        </div>
                 </div>
             </div>
-        </div>
+
+            <header th:insert="blocks/paginationChapters"></header>
         <form id="deleteBook" th:method="delete" th:action="@{'/book/' + ${book.id}}">
         </form>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">

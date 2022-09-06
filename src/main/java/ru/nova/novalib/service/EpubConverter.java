@@ -89,7 +89,7 @@ public class EpubConverter {
                     chapter.setChapterName(chapterName);
                     chapter.setChapterText(searchByTags(chapterText, TEG_BODY));
                     chapter.setNumberInBook(count++);
-                    book.addChapters(chapter);
+                    book.addChapter(chapter);
                 }
             }
             log.info("Epub converter - add chapters to the book: {}", book.getChapters().size());
