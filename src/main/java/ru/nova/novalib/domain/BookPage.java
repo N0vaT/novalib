@@ -10,4 +10,5 @@ public class BookPage {
 
     private Sort.Direction sortDirection = Sort.Direction.ASC;
     private String sortBy = "id";
+    private String search;
 }

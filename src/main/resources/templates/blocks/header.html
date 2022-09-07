@@ -10,8 +10,8 @@
                     <li><a href="/admin" class="nav-link px-2 text-white">Панель администратора</a></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                    <input type="search" class="form-control form-control-dark" placeholder="Название..." aria-label="Search">
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 " th:action="@{/catalog/search}" th:method="get">
+                    <input type="text" name="keyword" th:value="${keyword}" class="form-control form-control-dark" placeholder="Название..." size="50" aria-label="Search">
                 </form>
 
                 <div class="text-end">

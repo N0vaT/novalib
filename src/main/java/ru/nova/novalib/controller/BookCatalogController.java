@@ -8,19 +8,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.nova.novalib.domain.BookPage;
 import ru.nova.novalib.service.BookService;
+import ru.nova.novalib.service.GenreService;
 
 @Controller
 @RequestMapping("/catalog")
-@SessionAttributes("bookPage")
+@SessionAttributes({"bookPage", "books"})
 public class BookCatalogController {
 
     private final BookService bookService;
+    private final GenreService genreService;
 
-    @Autowired
-    public BookCatalogController(BookService bookService) {
+    public BookCatalogController(BookService bookService, GenreService genreService) {
         this.bookService = bookService;
+        this.genreService = genreService;
     }
-
 
     @GetMapping()
     public String getCatalog(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
@@ -28,7 +29,11 @@ public class BookCatalogController {
                              BookPage bookPage, Model model, SessionStatus sessionStatus){
         if(bookPage==null) bookPage = new BookPage();
         model.addAttribute("bookPage", bookPage);
-        model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
+        if(model.getAttribute("books")==null) {
+            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
+        }
+        model.addAttribute("genres", genreService.findAll());
+        sessionStatus.setComplete();
         return "bookCatalog";
     }
 
@@ -49,7 +54,7 @@ public class BookCatalogController {
         bookPage.setSortBy("title");
         bookPage.setSortDirection(Sort.Direction.ASC);
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        return "bookCatalog";
+        return "redirect:/catalog";
     }
     @GetMapping("/year")
     public String getCatalogYearPublished(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
@@ -58,7 +63,7 @@ public class BookCatalogController {
         bookPage.setSortBy("yearPublished");
         bookPage.setSortDirection(Sort.Direction.ASC);
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        return "bookCatalog";
+        return "redirect:/catalog";
     }
     @GetMapping("/date")
     public String getCatalogDate(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
@@ -67,7 +72,7 @@ public class BookCatalogController {
         bookPage.setSortBy("id");
         bookPage.setSortDirection(Sort.Direction.ASC);
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        return "bookCatalog";
+        return "redirect:/catalog";
     }
     @PostMapping("/revers")
     public String revers(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
@@ -78,7 +83,24 @@ public class BookCatalogController {
                 sortDirection==Sort.Direction.DESC?
                         Sort.Direction.ASC : Sort.Direction.DESC);
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        return "bookCatalog";
+        return "redirect:/catalog";
+    }
+
+    @GetMapping("/search")
+    public String getSearch(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                                 @RequestParam(value = "size", required = false, defaultValue = "18") int size,
+                                 BookPage bookPage, Model model, String keyword){
+        if(keyword!=null) {
+            bookPage.setSearch(keyword);
+            bookPage.setSortBy("title");
+            bookPage.setSortDirection(Sort.Direction.ASC);
+            model.addAttribute("books", bookService.getByKeyword(pageNumber, size, bookPage));
+        }else {
+            bookPage.setSortBy("title");
+            bookPage.setSortDirection(Sort.Direction.ASC);
+            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
+        }
+        return "redirect:/catalog";
     }
 
 

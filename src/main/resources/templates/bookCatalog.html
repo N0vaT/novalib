@@ -14,6 +14,10 @@
         background-color: #397DD5;
         color: #ffff;
     }
+    .scrollClass {
+        height:350px;
+        overflow-y: scroll;
+    }
     </style>
 </head>
 <body>
@@ -23,11 +27,25 @@
 <div class="container-xxl border">
 
     <div class="text-center display-3">Каталог книг</div>
-
-
+    <div>
+        <nav class="navbar justify-content-center p-1 px-3">
+            <li class="dropdown" type="none">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Жанры:</button>
+        <ul class="dropdown-menu">
+            <div class="form-select scrollClass">
+                <div class="form-check" th:each="genre:${genres}">
+                <input class="form-check-input" type="checkbox" th:value="${genre.genreId}">
+                <label class="form-check-label" th:text="${genre.genreTitle}">
+                </label>
+                </div>
+            </div>
+        </ul>
+            </li>
+        </nav>
+    </div>
 
     <div class="row border">
-        <nav class="navbar navbar-expand-lg bg-light">
+        <nav class="navbar navbar-expand-lg bg-light p-1 px-2">
 
         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Сортировка по:</button>
         <ul class="dropdown-menu">
@@ -46,6 +64,12 @@
                     </svg>
                 </button>
         </form>
+            <div class="text-center display-6 px-3" th:object="${bookPage}">
+                <span th:if="*{sortBy}==('rating')" th:text="'По рейтингу:'"></span>
+                <span th:if="*{sortBy}==('id')" th:text="'По дате добавления:'"></span>
+                <span th:if="*{sortBy}==('title')" th:text="'По названию:'"></span>
+                <span th:if="*{sortBy}==('yearPublished')" th:text="'По году издания:'"></span>
+            </div>
         </nav>
 
         <div class="col-2 border text-center" th:each="book: ${books.page}">

@@ -102,4 +102,12 @@ public class BookService {
         book.deleteGenre(genre);
         return book;
     }
+
+    public Paged<Book> getByKeyword(int pageNumber, int size, BookPage bookPage) {
+        Sort.Direction sort = bookPage.getSortDirection();
+        String sortBy = bookPage.getSortBy();
+        PageRequest request = PageRequest.of(pageNumber - 1, size, sort, sortBy);
+        Page<Book> pageBook = bookRepository.findByTitleContainingIgnoreCase(bookPage.getSearch(), request);
+        return new Paged<>(pageBook, Paging.of(pageBook.getTotalPages(), pageNumber, size));
+    }
 }
