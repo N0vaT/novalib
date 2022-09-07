@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.nova.novalib.dao.BookRepository;
 import ru.nova.novalib.domain.Author;
 import ru.nova.novalib.domain.Book;
+import ru.nova.novalib.domain.BookPage;
 import ru.nova.novalib.domain.Genre;
 import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.domain.paging.Paging;
@@ -60,10 +61,12 @@ public class BookService {
         return bookRepository.findById(id).orElseThrow(()->new BookNotFoundException(id));
     }
 
-    public Paged<Book> getPage(int pageNumber, int size, String field, Sort.Direction sort){
-        PageRequest request = PageRequest.of(pageNumber - 1, size, sort, field);
-        Page<Book> bookPage = bookRepository.findAll(request);
-        return new Paged<>(bookPage, Paging.of(bookPage.getTotalPages(), pageNumber, size));
+    public Paged<Book> getPage(int pageNumber, int size, BookPage bookPage){
+        Sort.Direction sort = bookPage.getSortDirection();
+        String sortBy = bookPage.getSortBy();
+        PageRequest request = PageRequest.of(pageNumber - 1, size, sort, sortBy);
+        Page<Book> pageBook = bookRepository.findAll(request);
+        return new Paged<>(pageBook, Paging.of(pageBook.getTotalPages(), pageNumber, size));
     }
 
     public long random() {
