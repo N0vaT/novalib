@@ -31,9 +31,14 @@
     <div class="row border">
         <div class="col-3 border">
             <div class="media-info-list-fix">
-            <br/>
+                <nav class="navbar bg-light justify-content-end p-1 px-1">
+                    <img th:src="@{/images/icon_star.png}" class=" d-block" width="16px" height="16px">
+                    <div th:text="${book.rating}">Rating</div>
+                </nav>
                 <img th:src="@{/posters/{name}(name=${book.posterName})}" class="img-fluid mx-auto d-block" width="250px" height="350px">
-            <br/>
+                <a class="btn btn-success mx-auto d-block" th:href="@{'/book/' + ${book.id} + '/' + ${firstChapter.chapterId}}">
+                    Начать читать
+                </a>
             <div class="border bg-light">
             <div class="row px-2">
                 <div class="media-info-list_title ">Название:</div>
@@ -92,7 +97,7 @@
             </div>
             <div>
             <div class="btn-group" role="group" aria-label="Basic outlined example" th:each="genre: ${book.genres}">
-                <a type="button" class="btn btn-outline-primary" href="#" th:text="${genre.genreTitle}">Left</a>
+                <a type="button" class="btn btn-outline-primary" th:href="@{'/catalog/byGenre/' + ${genre.genreId}}" th:text="${genre.genreTitle}">Left</a>
             </div>
             </div>
 

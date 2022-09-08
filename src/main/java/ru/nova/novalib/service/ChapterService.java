@@ -44,4 +44,8 @@ public class ChapterService {
         Page<Chapter> chapterPage = chapterRepository.findAllByBook(book, request);
         return new Paged<>(chapterPage, Paging.of(chapterPage.getTotalPages(), pageNumber, size));
     }
+
+    public Chapter getFirst(Book book) {
+        return getChaptersPage(book).get(0);
+    }
 }

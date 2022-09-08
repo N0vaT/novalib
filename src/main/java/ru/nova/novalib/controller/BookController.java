@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.Chapter;
+import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.service.BookService;
 import ru.nova.novalib.service.ChapterService;
 
@@ -30,6 +31,8 @@ public class BookController {
         if(book == null){
             return "";
         }
+        Paged<Chapter> page = chapterService.getPage(book, pageNumber, size);
+        model.addAttribute("firstChapter", chapterService.getFirst(book));
         model.addAttribute("chapters", chapterService.getPage(book, pageNumber, size));
         model.addAttribute("book", book);
         return "book";

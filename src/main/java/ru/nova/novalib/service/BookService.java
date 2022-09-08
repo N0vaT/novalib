@@ -70,6 +70,7 @@ public class BookService {
         return new Paged<>(pageBook, Paging.of(pageBook.getTotalPages(), pageNumber, size));
     }
 
+    @Transactional(readOnly = true)
     public long random() {
         List<Book> all = bookRepository.findAll();
         Collections.shuffle(all);

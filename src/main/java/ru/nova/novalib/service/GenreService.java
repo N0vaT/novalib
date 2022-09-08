@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.nova.novalib.dao.GenreRepository;
 import ru.nova.novalib.domain.Genre;
+import ru.nova.novalib.exception.GenreNotFoundException;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -29,7 +31,15 @@ public class GenreService {
     }
 
     public Genre findById(Long id) {
-        Genre genre = genreRepository.findById(id).orElse(null);
+        Genre genre = genreRepository.findById(id).orElseThrow(()-> new GenreNotFoundException(id));
         return genre;
+    }
+
+    public List<Genre> findBySetId(Set<Long> setId) {
+        if(setId == null) {
+            return null;
+        }
+        List<Genre> genres = genreRepository.findAllDistinctByGenreIdIn(setId);
+        return genres;
     }
 }

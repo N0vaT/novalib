@@ -26,7 +26,12 @@
 
 <div class="container-xxl border">
 
-    <div class="text-center display-3">Каталог книг</div>
+    <span class=" display-6" th:text="'Выбранные жанры:'">
+    </span>
+    <ul class="list-inline" >
+        <li class="list-inline-item" th:each="genreOn:${genresOn}" th:text="${genreOn.genreTitle} + '; '">Это элемент списка.</li>
+    </ul>
+
     <div>
         <nav class="navbar justify-content-center p-1 px-3">
             <li class="dropdown" type="none">
@@ -57,10 +62,10 @@
 
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Сортировка по:</button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/catalog/rating">По рейтингу</a></li>
-                <li><a class="dropdown-item" href="/catalog/title">По названию</a></li>
-                <li><a class="dropdown-item" href="/catalog/year">По году издания</a></li>
-                <li><a class="dropdown-item" href="/catalog/date">По дате добавления</a></li>
+                <li><a class="dropdown-item" href="/catalog/byGenre/rating">По рейтингу</a></li>
+                <li><a class="dropdown-item" href="/catalog/byGenre/title">По названию</a></li>
+                <li><a class="dropdown-item" href="/catalog/byGenre/year">По году издания</a></li>
+                <li><a class="dropdown-item" href="/catalog/byGenre/date">По дате добавления</a></li>
                 <li><a class="dropdown-item" href="#">По кол-ву глав</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="/book/random">Мне повезет</a></li>
@@ -81,6 +86,10 @@
         </nav>
 
         <div class="col-2 border text-center" th:each="book: ${books.page}">
+            <nav class="navbar bg-light justify-content-end p-1 px-1">
+                <img th:src="@{/images/icon_star.png}" class=" d-block" width="16px" height="16px">
+                <div th:text="${book.rating}">Rating</div>
+            </nav>
             <img th:src="@{/posters/{name}(name=${book.posterName})}" class="card-img-top mx-auto d-block" width="175px" height="238px">
             <a class="list-group-item-action" th:href="@{'/book/' + ${book.id}}" th:text="${book.title}">Title</a>
 

@@ -30,7 +30,7 @@ public class BookCatalogController {
 
     @GetMapping()
     public String getCatalog(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                             @RequestParam(value = "size", required = false, defaultValue = "3") int size,
+                             @RequestParam(value = "size", required = false, defaultValue = "18") int size,
                              BookPage bookPage, Model model, SessionStatus sessionStatus){
         if(bookPage==null) bookPage = new BookPage();
         model.addAttribute("bookPage", bookPage);
@@ -41,7 +41,7 @@ public class BookCatalogController {
 
     @GetMapping("/rating")
     public String getCatalogRating(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                   @RequestParam(value = "size", required = false, defaultValue = "3") int size,
+                                   @RequestParam(value = "size", required = false, defaultValue = "18") int size,
                                    BookPage bookPage, Model model){
         bookPage.setSortBy("rating");
         bookPage.setSortDirection(Sort.Direction.DESC);
@@ -50,7 +50,7 @@ public class BookCatalogController {
     }
     @GetMapping("/title")
     public String getCatalogTitle(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                  @RequestParam(value = "size", required = false, defaultValue = "3") int size,
+                                  @RequestParam(value = "size", required = false, defaultValue = "18") int size,
                                   BookPage bookPage, Model model){
         bookPage.setSortBy("title");
         bookPage.setSortDirection(Sort.Direction.ASC);
@@ -59,7 +59,7 @@ public class BookCatalogController {
     }
     @GetMapping("/year")
     public String getCatalogYearPublished(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                          @RequestParam(value = "size", required = false, defaultValue = "3") int size,
+                                          @RequestParam(value = "size", required = false, defaultValue = "18") int size,
                                           BookPage bookPage, Model model){
         bookPage.setSortBy("yearPublished");
         bookPage.setSortDirection(Sort.Direction.ASC);
@@ -68,7 +68,7 @@ public class BookCatalogController {
     }
     @GetMapping("/date")
     public String getCatalogDate(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                          @RequestParam(value = "size", required = false, defaultValue = "3") int size,
+                                          @RequestParam(value = "size", required = false, defaultValue = "18") int size,
                                           BookPage bookPage, Model model){
         bookPage.setSortBy("id");
         bookPage.setSortDirection(Sort.Direction.ASC);
@@ -78,7 +78,7 @@ public class BookCatalogController {
 
     @PostMapping("/revers")
     public String revers(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                 @RequestParam(value = "size", required = false, defaultValue = "3") int size,
+                                 @RequestParam(value = "size", required = false, defaultValue = "18") int size,
                                  BookPage bookPage, Model model){
         Sort.Direction sortDirection = bookPage.getSortDirection();
         bookPage.setSortDirection(
@@ -90,7 +90,7 @@ public class BookCatalogController {
 
     @GetMapping("/search")
     public String getSearch(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                 @RequestParam(value = "size", required = false, defaultValue = "3") int size,
+                                 @RequestParam(value = "size", required = false, defaultValue = "18") int size,
                                  BookPage bookPage, Model model, String keyword){
         if(keyword!=null) {
             bookPage.setSearch(keyword);
