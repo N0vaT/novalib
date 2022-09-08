@@ -34,6 +34,7 @@ public class BookCatalogController {
                              BookPage bookPage, Model model, SessionStatus sessionStatus){
         if(bookPage==null) bookPage = new BookPage();
         model.addAttribute("bookPage", bookPage);
+        model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
         return "bookCatalog";
     }
@@ -85,7 +86,7 @@ public class BookCatalogController {
                 sortDirection==Sort.Direction.DESC?
                         Sort.Direction.ASC : Sort.Direction.DESC);
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        return "bookCatalog";
+        return "redirect:/catalog";
     }
 
     @GetMapping("/search")
@@ -105,6 +106,12 @@ public class BookCatalogController {
             model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
         }
         return "bookCatalog";
+    }
+
+    @GetMapping("/clear")
+    public String getClearGenre(BookPage bookPage){
+        bookPage.clearSet();
+        return "redirect:/catalog";
     }
 
 }

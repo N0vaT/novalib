@@ -20,4 +20,8 @@ public class BookPage {
         genreSet.add(genreId);
     }
 
+    public void clearSet(){
+        genreSet.clear();
+    }
+
 }

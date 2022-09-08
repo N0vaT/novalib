@@ -95,6 +95,7 @@ public class BookByGenreController {
         bookPage.setSortDirection(
                 sortDirection==Sort.Direction.DESC?
                         Sort.Direction.ASC : Sort.Direction.DESC);
+        model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
         model.addAttribute("books", bookService.getByGenreId(pageNumber, size, bookPage));
         return "bookByGenre";
     }
@@ -108,7 +109,15 @@ public class BookByGenreController {
         bookPage.addGenre(genreId);
         bookPage.setSortBy("rating");
         bookPage.setSortDirection(Sort.Direction.DESC);
+        model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
         model.addAttribute("books", bookService.getByGenreId(pageNumber, size, bookPage));
         return "bookByGenre";
+    }
+    @GetMapping("/clear")
+    public String getClearGenre(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                                 @RequestParam(value = "size", required = false, defaultValue = "18") int size,
+                                 BookPage bookPage, Model model){
+        bookPage.clearSet();
+        return "redirect:/catalog/byGenre";
     }
 }
