@@ -30,18 +30,18 @@
     <div>
         <nav class="navbar justify-content-center p-1 px-3">
             <li class="dropdown" type="none">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Жанры:</button>
-        <ul class="dropdown-menu">
-            <div class="form-select scrollClass">
-                <form th:method="post" th:action="@{/catalog/byGenre}" id="searchByGenre" th:object="${bookPage}">
-                <div class="form-check" th:each="genre:${genres}">
-                <input class="form-check-input" th:field="*{genreSet}" type="checkbox" th:value="${genre.genreId}">
-                <label class="form-check-label" th:text="${genre.genreTitle}">
-                </label>
-                </div>
-                </form>
-            </div>
-        </ul>
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Жанры:</button>
+                <ul class="dropdown-menu">
+                    <div class="form-select scrollClass">
+                        <form th:method="post" th:action="@{/catalog/byGenre}" id="searchByGenre" th:object="${bookPage}">
+                            <div class="form-check" th:each="genre:${genres}">
+                                <input class="form-check-input" th:field="*{genreSet}" type="checkbox" th:value="${genre.genreId}">
+                                <label class="form-check-label" th:text="${genre.genreTitle}">
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                </ul>
             </li>
             <button type="submit" class="btn btn-outline-secondary" form="searchByGenre">
                 <svg width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
@@ -55,23 +55,23 @@
     <div class="row border">
         <nav class="navbar navbar-expand-lg bg-light p-1 px-2">
 
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Сортировка по:</button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/catalog/rating">По рейтингу</a></li>
-            <li><a class="dropdown-item" href="/catalog/title">По названию</a></li>
-            <li><a class="dropdown-item" href="/catalog/year">По году издания</a></li>
-            <li><a class="dropdown-item" href="/catalog/date">По дате добавления</a></li>
-            <li><a class="dropdown-item" href="#">По кол-ву глав</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/book/random">Мне повезет</a></li>
-        </ul>
-        <form th:method="post" th:action="@{/catalog/revers}" id="revers">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Сортировка по:</button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/catalog/rating">По рейтингу</a></li>
+                <li><a class="dropdown-item" href="/catalog/title">По названию</a></li>
+                <li><a class="dropdown-item" href="/catalog/year">По году издания</a></li>
+                <li><a class="dropdown-item" href="/catalog/date">По дате добавления</a></li>
+                <li><a class="dropdown-item" href="#">По кол-ву глав</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/book/random">Мне повезет</a></li>
+            </ul>
+            <form th:method="post" th:action="@{/catalog/byGenre/revers}" id="revers">
                 <button type="submit" class="btn btn-outline-secondary" form="revers">
                     <svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"></path>
                     </svg>
                 </button>
-        </form>
+            </form>
             <div class="text-center display-6 px-3" th:object="${bookPage}">
                 <span th:if="*{sortBy}==('rating')" th:text="'По рейтингу:'"></span>
                 <span th:if="*{sortBy}==('id')" th:text="'По дате добавления:'"></span>
@@ -90,13 +90,13 @@
     <nav aria-label="Page navigation" class="paging">
         <ul class="pagination" th:if="${books.page.totalPages > 1}">
             <li class="page-item" th:classappend="${!books.paging.isPrevEnabled()? 'disabled' : ''}">
-                <a class="page-link" th:href="@{'/catalog?pageNumber=' + ${books.paging.pageNumber - 1}}"
+                <a class="page-link" th:href="@{'/catalog/byGenre?pageNumber=' + ${books.paging.pageNumber - 1}}"
                    tabindex="-1">Previous</a>
             </li>
             <th:block th:each="item : ${books.paging.getItems()}">
                 <li class="page-item" th:classappend="${item.index == books.paging.pageNumber? 'active' : ''}"
                     th:if="${item.pageItemType.name() == 'PAGE'}">
-                    <a class="page-link" th:href="@{'/catalog?pageNumber=' + ${item.index}}"
+                    <a class="page-link" th:href="@{'/catalog/byGenre?pageNumber=' + ${item.index}}"
                        th:text="${item.index}"></a>
                 </li>
                 <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
@@ -104,7 +104,7 @@
                 </li>
             </th:block>
             <li class="page-item" th:classappend="${!books.paging.isNextEnabled()? 'disabled' : ''}">
-                <a class="page-link" th:href="@{'/catalog?pageNumber=' + ${books.paging.pageNumber + 1}}">Next</a>
+                <a class="page-link" th:href="@{'/catalog/byGenre?pageNumber=' + ${books.paging.pageNumber + 1}}">Next</a>
             </li>
         </ul>
     </nav>

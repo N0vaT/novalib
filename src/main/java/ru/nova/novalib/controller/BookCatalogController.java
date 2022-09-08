@@ -23,33 +23,34 @@ public class BookCatalogController {
         this.genreService = genreService;
     }
 
+    @ModelAttribute
+    public void addGenresToModel(Model model){
+        model.addAttribute("genres", genreService.findAll());
+    }
+
     @GetMapping()
     public String getCatalog(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                             @RequestParam(value = "size", required = false, defaultValue = "18") int size,
+                             @RequestParam(value = "size", required = false, defaultValue = "3") int size,
                              BookPage bookPage, Model model, SessionStatus sessionStatus){
         if(bookPage==null) bookPage = new BookPage();
         model.addAttribute("bookPage", bookPage);
-        if(model.getAttribute("books")==null) {
-            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        }
-        model.addAttribute("genres", genreService.findAll());
-        sessionStatus.setComplete();
+        model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
         return "bookCatalog";
     }
 
 
     @GetMapping("/rating")
     public String getCatalogRating(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                   @RequestParam(value = "size", required = false, defaultValue = "18") int size,
+                                   @RequestParam(value = "size", required = false, defaultValue = "3") int size,
                                    BookPage bookPage, Model model){
         bookPage.setSortBy("rating");
         bookPage.setSortDirection(Sort.Direction.DESC);
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        return "bookCatalog";
+        return "redirect:/catalog";
     }
     @GetMapping("/title")
     public String getCatalogTitle(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                  @RequestParam(value = "size", required = false, defaultValue = "18") int size,
+                                  @RequestParam(value = "size", required = false, defaultValue = "3") int size,
                                   BookPage bookPage, Model model){
         bookPage.setSortBy("title");
         bookPage.setSortDirection(Sort.Direction.ASC);
@@ -58,7 +59,7 @@ public class BookCatalogController {
     }
     @GetMapping("/year")
     public String getCatalogYearPublished(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                          @RequestParam(value = "size", required = false, defaultValue = "18") int size,
+                                          @RequestParam(value = "size", required = false, defaultValue = "3") int size,
                                           BookPage bookPage, Model model){
         bookPage.setSortBy("yearPublished");
         bookPage.setSortDirection(Sort.Direction.ASC);
@@ -67,42 +68,43 @@ public class BookCatalogController {
     }
     @GetMapping("/date")
     public String getCatalogDate(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                          @RequestParam(value = "size", required = false, defaultValue = "18") int size,
+                                          @RequestParam(value = "size", required = false, defaultValue = "3") int size,
                                           BookPage bookPage, Model model){
         bookPage.setSortBy("id");
         bookPage.setSortDirection(Sort.Direction.ASC);
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
         return "redirect:/catalog";
     }
+
     @PostMapping("/revers")
     public String revers(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                 @RequestParam(value = "size", required = false, defaultValue = "18") int size,
+                                 @RequestParam(value = "size", required = false, defaultValue = "3") int size,
                                  BookPage bookPage, Model model){
         Sort.Direction sortDirection = bookPage.getSortDirection();
         bookPage.setSortDirection(
                 sortDirection==Sort.Direction.DESC?
                         Sort.Direction.ASC : Sort.Direction.DESC);
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        return "redirect:/catalog";
+        return "bookCatalog";
     }
 
     @GetMapping("/search")
     public String getSearch(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                 @RequestParam(value = "size", required = false, defaultValue = "18") int size,
+                                 @RequestParam(value = "size", required = false, defaultValue = "3") int size,
                                  BookPage bookPage, Model model, String keyword){
         if(keyword!=null) {
             bookPage.setSearch(keyword);
             bookPage.setSortBy("title");
             bookPage.setSortDirection(Sort.Direction.ASC);
+            model.addAttribute("bookPage", bookPage);
             model.addAttribute("books", bookService.getByKeyword(pageNumber, size, bookPage));
         }else {
             bookPage.setSortBy("title");
             bookPage.setSortDirection(Sort.Direction.ASC);
+            model.addAttribute("bookPage", bookPage);
             model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
         }
-        return "redirect:/catalog";
+        return "bookCatalog";
     }
-
-
 
 }

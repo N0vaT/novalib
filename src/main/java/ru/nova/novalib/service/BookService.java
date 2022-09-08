@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -108,6 +109,14 @@ public class BookService {
         String sortBy = bookPage.getSortBy();
         PageRequest request = PageRequest.of(pageNumber - 1, size, sort, sortBy);
         Page<Book> pageBook = bookRepository.findByTitleContainingIgnoreCase(bookPage.getSearch(), request);
+        return new Paged<>(pageBook, Paging.of(pageBook.getTotalPages(), pageNumber, size));
+    }
+
+    public Paged<Book> getByGenreId(int pageNumber, int size, BookPage bookPage) {
+        Sort.Direction sort = bookPage.getSortDirection();
+        String sortBy = bookPage.getSortBy();
+        PageRequest request = PageRequest.of(pageNumber - 1, size, sort, sortBy);
+        Page<Book> pageBook = bookRepository.findAllDistinctByGenresGenreIdIn(bookPage.getGenreSet(), request);
         return new Paged<>(pageBook, Paging.of(pageBook.getTotalPages(), pageNumber, size));
     }
 }
