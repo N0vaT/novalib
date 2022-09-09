@@ -19,10 +19,10 @@
 
 <header th:insert="blocks/header" ::header></header>
 
-<div class="container-xxl border">
+<div class="container-xxl">
     <div class="text-center display-3" th:text="${book.title}">Title</div>
     <div class="media-info-list-fix p-2 ">
-            <nav aria-label="Пример навигации по страницам">
+
                 <ul class="pagination justify-content-center">
                     <li th:if="${previousId!=null}" class="page-item">
                         <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${previousId}}">Предыдущая</a>
@@ -44,7 +44,7 @@
                         <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая</a>
                     </li>
                 </ul>
-            </nav>
+
 
             <div class="collapse" id="collapseExample">
 
@@ -56,10 +56,27 @@
             </div>
 
     </div>
-    <div class="row border">
+    <div class="row shadow">
+        <div>
         <p th:utext="${chapterPage.chapterText}"></p>
+        </div>
     </div>
 </div>
+
+    <ul class="pagination justify-content-center">
+        <li th:if="${previousId!=null}" class="page-item">
+            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${previousId}}">Предыдущая</a>
+        </li>
+        <li th:if="${previousId == null}" class="page-item disabled">
+            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Предыдущая</a>
+        </li>
+        <li th:if="${nextId!=null}" class="page-item">
+            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая</a>
+        </li>
+        <li th:if="${nextId == null}" class="page-item disabled">
+            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая</a>
+        </li>
+    </ul>
 
 <header th:insert="blocks/footer" ::footer></header>
 

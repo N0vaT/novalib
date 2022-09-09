@@ -20,13 +20,13 @@
 
 <header th:insert="blocks/header" ::header></header>
 
-<div class="container-xxl border">
+<div class="container-xxl">
 
-            <div class="row border">
+            <div class="row">
                 <div class="media-info-list p-2">
                     Топ по рейтингу:
                 </div>
-                <div class="col-2 border text-center" th:each="book: ${ratingList.page}">
+                <div class="col-2 border text-center shadow" th:each="book: ${ratingList.page}">
                     <nav class="navbar bg-light justify-content-end p-1 px-1">
                         <img th:src="@{images/icon_star.png}" class=" d-block" width="16px" height="16px">
                         <div th:text="${book.rating}">Rating</div>
@@ -38,7 +38,7 @@
                 <div class="media-info-list p-2">
                     Последние добавленные:
                 </div>
-                <div class="col-2 border text-center" th:each="book: ${dateList.page}">
+                <div class="col-2 border text-center shadow" th:each="book: ${dateList.page}">
                     <nav class="navbar bg-light justify-content-end p-1 px-1">
                         <img th:src="@{images/icon_star.png}" class=" d-block" width="16px" height="16px">
                         <div th:text="${book.rating}">Rating</div>

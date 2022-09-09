@@ -27,9 +27,9 @@
 
 <header th:insert="blocks/header" ::header></header>
 
-<div class="container-xxl border">
-    <div class="row border">
-        <div class="col-3 border">
+<div class="container-xxl ">
+    <div class="row">
+        <div class="col-3">
             <div class="media-info-list-fix">
                 <nav class="navbar bg-light justify-content-end p-1 px-1">
                     <img th:src="@{/images/icon_star.png}" class=" d-block" width="16px" height="16px">
@@ -39,7 +39,7 @@
                 <a class="btn btn-success mx-auto d-block" th:href="@{'/book/' + ${book.id} + '/' + ${firstChapter.chapterId}}">
                     Начать читать
                 </a>
-            <div class="border bg-light">
+            <div class="shadow bg-light">
             <div class="row px-2">
                 <div class="media-info-list_title ">Название:</div>
                 <div th:text="${book.title}">Title</div>
@@ -88,7 +88,7 @@
             <div class="media-info-list p-2">
                 Описание
             </div>
-            <div class="border bg-light p-2">
+            <div class=" shadow border bg-light p-2">
                 <p th:text="${book.description}"></p>
             </div>
             <br/>
@@ -96,7 +96,7 @@
                 Жанры
             </div>
             <div>
-            <div class="btn-group" role="group" aria-label="Basic outlined example" th:each="genre: ${book.genres}">
+            <div class="shadow btn-group" role="group" aria-label="Basic outlined example" th:each="genre: ${book.genres}">
                 <a type="button" class="btn btn-outline-primary" th:href="@{'/catalog/byGenre/' + ${genre.genreId}}" th:text="${genre.genreTitle}">Left</a>
             </div>
             </div>
@@ -105,9 +105,9 @@
             <div class="media-info-list p-2">
                 Список глав
             </div>
-            <div class="form-select scrollClass">
+            <div class="shadow form-select scrollClass">
 
-                <header th:insert="blocks/paginationChapters"></header>
+                <div th:insert="blocks/paginationChapters"></div>
                 <div th:each="oneChapter:${chapters.page}">
                         <div class="input-group mb-1 border">
                             <a class="form-control list-group-item list-group-item-action" th:href="@{'/book/' + ${book.id} + '/' + ${oneChapter.chapterId}}" th:text="${oneChapter.chapterName}">Chapters</a>
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <header th:insert="blocks/paginationChapters"></header>
+            <div th:insert="blocks/paginationChapters"></div>
         <form id="deleteBook" th:method="delete" th:action="@{'/book/' + ${book.id}}">
         </form>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
