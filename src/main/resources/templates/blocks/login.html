@@ -1,0 +1,19 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-dark">
+            <div class="modal-header">
+                <p class="modal-title">Вход через социальные сети</p>
+            </div>
+            <form th:action="@{/authenticateTheUser}" th:method="post">
+                <div class="row gy-2 px-3">
+                    <p class="modal-title" id="exampleModalLabel">Вход по логину и паролю</p>
+                    <input type="text" class="form-control" placeholder="Логин" id="username" name="username">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">
+                    <small class="form-text text-danger" th:if="${param.error != null}">Неверное имя пользователя или пароль</small>
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Войти</button>
+                </div>
+            </form>
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Зарегестрироваться</button>
+        </div>
+    </div>
+</div>

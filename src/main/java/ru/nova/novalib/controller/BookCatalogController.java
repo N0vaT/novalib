@@ -7,8 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.nova.novalib.domain.BookPage;
+import ru.nova.novalib.domain.dto.UserDto;
 import ru.nova.novalib.service.BookService;
 import ru.nova.novalib.service.GenreService;
+import ru.nova.novalib.service.UserService;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/catalog")
@@ -17,15 +21,21 @@ public class BookCatalogController {
 
     private final BookService bookService;
     private final GenreService genreService;
+    private final UserService userService;
 
-    public BookCatalogController(BookService bookService, GenreService genreService) {
+    public BookCatalogController(BookService bookService, GenreService genreService, UserService userService) {
         this.bookService = bookService;
         this.genreService = genreService;
+        this.userService = userService;
     }
 
     @ModelAttribute
-    public void addGenresToModel(Model model){
+    public void addGenresToModel(Model model, Principal principal){
         model.addAttribute("genres", genreService.findAll());
+        model.addAttribute("userDto", new UserDto());
+        if(principal!=null) {
+            model.addAttribute("user", userService.findByLogin(principal.getName()));
+        }
     }
 
     @GetMapping()
@@ -46,6 +56,7 @@ public class BookCatalogController {
                                    BookPage bookPage, Model model){
         bookPage.setSortBy("rating");
         bookPage.setSortDirection(Sort.Direction.DESC);
+        model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
         return "redirect:/catalog";
     }
@@ -55,6 +66,7 @@ public class BookCatalogController {
                                   BookPage bookPage, Model model){
         bookPage.setSortBy("title");
         bookPage.setSortDirection(Sort.Direction.ASC);
+        model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
         return "redirect:/catalog";
     }
@@ -64,6 +76,7 @@ public class BookCatalogController {
                                           BookPage bookPage, Model model){
         bookPage.setSortBy("yearPublished");
         bookPage.setSortDirection(Sort.Direction.ASC);
+        model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
         return "redirect:/catalog";
     }
@@ -73,6 +86,7 @@ public class BookCatalogController {
                                           BookPage bookPage, Model model){
         bookPage.setSortBy("id");
         bookPage.setSortDirection(Sort.Direction.ASC);
+        model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
         return "redirect:/catalog";
     }
@@ -85,8 +99,9 @@ public class BookCatalogController {
         bookPage.setSortDirection(
                 sortDirection==Sort.Direction.DESC?
                         Sort.Direction.ASC : Sort.Direction.DESC);
+        model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        return "redirect:/catalog";
+        return "bookCatalog";
     }
 
     @GetMapping("/search")
@@ -98,6 +113,7 @@ public class BookCatalogController {
             bookPage.setSortBy("title");
             bookPage.setSortDirection(Sort.Direction.ASC);
             model.addAttribute("bookPage", bookPage);
+            model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
             model.addAttribute("books", bookService.getByKeyword(pageNumber, size, bookPage));
         }else {
             bookPage.setSortBy("title");

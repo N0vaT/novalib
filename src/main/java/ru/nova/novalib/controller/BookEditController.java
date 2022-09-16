@@ -8,7 +8,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.nova.novalib.domain.Author;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.Genre;
+import ru.nova.novalib.domain.dto.UserDto;
 import ru.nova.novalib.service.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/book/edit")
@@ -20,13 +23,23 @@ public class BookEditController {
     private final GenreService genreService;
     private final FileUploadService fileUploadService;
     private final ChapterService chapterService;
+    private final UserService userService;
 
-    public BookEditController(BookService bookService, AuthorService authorService, GenreService genreService, FileUploadService fileUploadService, ChapterService chapterService) {
+    public BookEditController(BookService bookService, AuthorService authorService, GenreService genreService, FileUploadService fileUploadService, ChapterService chapterService, UserService userService) {
         this.bookService = bookService;
         this.authorService = authorService;
         this.genreService = genreService;
         this.fileUploadService = fileUploadService;
         this.chapterService = chapterService;
+        this.userService = userService;
+    }
+
+    @ModelAttribute
+    public void addGenresToModel(Model model, Principal principal) {
+        model.addAttribute("userDto", new UserDto());
+        if(principal!=null) {
+            model.addAttribute("user", userService.findByLogin(principal.getName()));
+        }
     }
 
     @GetMapping("/{bookId}")

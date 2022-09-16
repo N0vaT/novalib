@@ -1,53 +1,33 @@
 package ru.nova.novalib.domain;
 
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.Collection;
+import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-@RequiredArgsConstructor
+@NoArgsConstructor()
 @Entity
 @Table(name = "nl_users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
     @Column(name = "user_name")
-    private final String username;
+    private String userName;
     @Column(name = "user_password")
-    private final String password;
+    private String userPassword;
+    @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
+    private Roles userRole;
+    @Column(name = "user_created")
+    private LocalDate userCreated;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+    public enum Roles {
+        ADMIN, USER
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

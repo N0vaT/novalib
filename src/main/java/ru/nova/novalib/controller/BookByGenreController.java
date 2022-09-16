@@ -7,26 +7,36 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.BookPage;
+import ru.nova.novalib.domain.dto.UserDto;
 import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.service.BookService;
 import ru.nova.novalib.service.GenreService;
+import ru.nova.novalib.service.UserService;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/catalog/byGenre")
 @SessionAttributes("bookPage")
 public class BookByGenreController {
 
-    private BookService bookService;
-    private GenreService genreService;
+    private final BookService bookService;
+    private final GenreService genreService;
+    private final UserService userService;
 
-    public BookByGenreController(BookService bookService, GenreService genreService) {
+    public BookByGenreController(BookService bookService, GenreService genreService, UserService userService) {
         this.bookService = bookService;
         this.genreService = genreService;
+        this.userService = userService;
     }
 
     @ModelAttribute
-    public void addGenresToModel(Model model){
+    public void addGenresToModel(Model model, Principal principal){
         model.addAttribute("genres", genreService.findAll());
+        model.addAttribute("userDto", new UserDto());
+        if(principal!=null) {
+            model.addAttribute("user", userService.findByLogin(principal.getName()));
+        }
     }
 
     @GetMapping()

@@ -9,10 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.nova.novalib.domain.Author;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.Genre;
-import ru.nova.novalib.service.AuthorService;
-import ru.nova.novalib.service.BookService;
-import ru.nova.novalib.service.FileUploadService;
-import ru.nova.novalib.service.GenreService;
+import ru.nova.novalib.domain.dto.UserDto;
+import ru.nova.novalib.service.*;
+
+import java.security.Principal;
 
 @Slf4j
 @Controller()
@@ -23,26 +23,25 @@ public class SaveController {
     private final GenreService genreService;
     private final AuthorService authorService;
     private final FileUploadService fileUploadService;
+    private final UserService userService;
 
-    public SaveController(BookService bookService, GenreService genreService, AuthorService authorService, FileUploadService fileUploadService) {
+    public SaveController(BookService bookService, GenreService genreService, AuthorService authorService, FileUploadService fileUploadService, UserService userService) {
         this.bookService = bookService;
         this.genreService = genreService;
         this.authorService = authorService;
         this.fileUploadService = fileUploadService;
+        this.userService = userService;
     }
 
     @ModelAttribute
-    public void addGenresToModel(Model model){
-            model.addAttribute("genreList", genreService.findAll());
-    }
-
-    @ModelAttribute
-    public void addGenreToModel(Model model){
-            model.addAttribute("genreForm", new Genre());
-    }
-    @ModelAttribute
-    public void addAuthorToModel(Model model){
+    public void addGenresToModel(Model model, Principal principal){
+        model.addAttribute("genreList", genreService.findAll());
+        model.addAttribute("genreForm", new Genre());
         model.addAttribute("authorForm", new Author());
+        model.addAttribute("userDto", new UserDto());
+        if(principal!=null) {
+            model.addAttribute("user", userService.findByLogin(principal.getName()));
+        }
     }
 
     @GetMapping

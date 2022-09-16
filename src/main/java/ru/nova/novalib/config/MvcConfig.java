@@ -17,9 +17,4 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/posters/**")
                 .addResourceLocations("file:///" + uploadPosterFilePath);
     }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login");
-    }
 }

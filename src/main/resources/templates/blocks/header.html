@@ -10,13 +10,40 @@
                     <li><a href="/admin" class="nav-link px-2 text-white">Панель администратора</a></li>
                 </ul>
 
+
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 " th:action="@{/catalog/search}" th:method="get">
                     <input type="text" name="keyword" th:value="${keyword}" class="form-control form-control-dark" placeholder="Название..." size="50" aria-label="Search">
                 </form>
 
-                <div class="text-end">
-                    <button type="button" class="btn btn-outline-light me-2">Войти</button>
+                <div class="dropdown text-end " sec:authorize="isAuthenticated()">
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img th:src="@{/images/ava.png}" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
+                        <nav class="navbar justify-content-center bg-light px-2">
+                            <img th:src="@{/images/ava.png}" alt="mdo" width="32" height="32" class="rounded-circle">
+                            <div th:text="${user.userName}">Title</div>
+                        </nav>
+                        <li><a class="dropdown-item" href="#">Закладки</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <form sec:authorize="isAuthenticated()"  th:action="@{/logout}" method="post">
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                            <button class="btn btn-outline-dark ">Выйти</button>
+                            </div>
+                        </form>
+                    </ul>
                 </div>
+
+                <div sec:authorize="isAnonymous()">
+                    <button type="button" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Войти
+                    </button>
+                </div>
+
+                <div th:insert="blocks/login"></div>
+                <div th:insert="blocks/register"></div>
+
+
             </div>
         </div>
     </header>

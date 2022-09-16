@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-2 border text-center shadow" th:each="book: ${ratingList.page}">
                     <nav class="navbar bg-light justify-content-end p-1 px-1">
-                        <img th:src="@{images/icon_star.png}" class=" d-block" width="16px" height="16px">
+                        <img th:src="@{/images/icon_star.png}" class=" d-block" width="16px" height="16px">
                         <div th:text="${book.rating}">Rating</div>
                     </nav>
                     <img th:src="@{/posters/{name}(name=${book.posterName})}" class="card-img-top mx-auto d-block" width="175px" height="238px">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-2 border text-center shadow" th:each="book: ${dateList.page}">
                     <nav class="navbar bg-light justify-content-end p-1 px-1">
-                        <img th:src="@{images/icon_star.png}" class=" d-block" width="16px" height="16px">
+                        <img th:src="@{/images/icon_star.png}" class=" d-block" width="16px" height="16px">
                         <div th:text="${book.rating}">Rating</div>
                     </nav>
                     <img th:src="@{/posters/{name}(name=${book.posterName})}" class="card-img-top mx-auto d-block" width="175px" height="238px">
@@ -53,6 +53,6 @@
 
 <header th:insert="blocks/footer" ::footer></header>
 
-<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

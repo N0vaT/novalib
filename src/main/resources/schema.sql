@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS nl_users;
 DROP TABLE IF EXISTS nl_chapters;
 DROP TABLE IF EXISTS nl_book_genre;
 DROP TABLE IF EXISTS nl_book_author;
@@ -60,6 +61,16 @@ CREATE TABLE IF NOT EXISTS nl_chapters
     number_in_book integer not null,
     PRIMARY KeY (chapter_id),
     FOREIGN KEY (book_id) REFERENCES nl_book (book_id)
+);
+
+CREATE TABLE IF NOT EXISTS nl_users
+(
+    user_id serial,
+    user_name varchar(20) UNIQUE not null,
+    user_password varchar(100) not null,
+    user_role varchar(10) not null,
+    user_created date not null,
+    PRIMARY KEY (user_id)
 );
 
 CREATE INDEX chapter_book_idx ON nl_chapters (book_id);

@@ -5,10 +5,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.Chapter;
+import ru.nova.novalib.domain.dto.UserDto;
 import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.service.BookService;
 import ru.nova.novalib.service.ChapterService;
+import ru.nova.novalib.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -17,10 +20,21 @@ public class BookController {
 
     private final BookService bookService;
     private final ChapterService chapterService;
+    private final UserService userService;
 
-    public BookController(BookService bookService, ChapterService chapterService) {
+
+    public BookController(BookService bookService, ChapterService chapterService, UserService userService) {
         this.bookService = bookService;
         this.chapterService = chapterService;
+        this.userService = userService;
+    }
+
+    @ModelAttribute
+    public void addGenresToModel(Model model, Principal principal) {
+        model.addAttribute("userDto", new UserDto());
+        if(principal!=null) {
+            model.addAttribute("user", userService.findByLogin(principal.getName()));
+        }
     }
 
     @GetMapping("/{id}")

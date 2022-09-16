@@ -4,18 +4,35 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.nova.novalib.domain.BookPage;
+import ru.nova.novalib.domain.dto.UserDto;
 import ru.nova.novalib.service.BookService;
+import ru.nova.novalib.service.UserService;
+
+import java.security.Principal;
+
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
 
     private final BookService bookService;
+    private final UserService userService;
 
-    public HomeController(BookService bookService) {
+    public HomeController(BookService bookService, UserService userService) {
         this.bookService = bookService;
+        this.userService = userService;
+    }
+
+    @ModelAttribute
+    public void addGenresToModel(Model model, Principal principal) {
+        model.addAttribute("userDto", new UserDto());
+        if(principal!=null) {
+            model.addAttribute("user", userService.findByLogin(principal.getName()));
+        }
     }
 
     @GetMapping
