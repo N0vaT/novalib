@@ -5,9 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.Chapter;
+import ru.nova.novalib.domain.User;
 import ru.nova.novalib.domain.dto.UserDto;
 import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.service.BookService;
+import ru.nova.novalib.service.BookmarkService;
 import ru.nova.novalib.service.ChapterService;
 import ru.nova.novalib.service.UserService;
 
@@ -21,12 +23,14 @@ public class BookController {
     private final BookService bookService;
     private final ChapterService chapterService;
     private final UserService userService;
+    private final BookmarkService bookmarkService;
 
 
-    public BookController(BookService bookService, ChapterService chapterService, UserService userService) {
+    public BookController(BookService bookService, ChapterService chapterService, UserService userService, BookmarkService bookmarkService) {
         this.bookService = bookService;
         this.chapterService = chapterService;
         this.userService = userService;
+        this.bookmarkService = bookmarkService;
     }
 
     @ModelAttribute
@@ -40,7 +44,8 @@ public class BookController {
     @GetMapping("/{id}")
     public String findBookById(@PathVariable(name = "id") Long id,
                                @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                               @RequestParam(value = "size", required = false, defaultValue = "100") int size, Model model){
+                               @RequestParam(value = "size", required = false, defaultValue = "100") int size,
+                               Model model, Principal principal){
         Book book = bookService.findById(id);
         if(book == null){
             return "";
@@ -88,4 +93,5 @@ public class BookController {
     public String findBookById(){
         return "redirect:/book/"+bookService.random();
     }
+
 }

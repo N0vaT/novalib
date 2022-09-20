@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.nova.novalib.dao.UserRepository;
 
-import java.util.Collections;
-
 @Service
 public class UserAuthService implements UserDetailsService {
 
@@ -19,11 +17,11 @@ public class UserAuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByUserName(username)
+        return repository.findByUsername(username)
                 .map(user-> new User(
-                        user.getUserName(),
-                        user.getUserPassword(),
-                        Collections.singletonList(new SimpleGrantedAuthority(user.getUserRole().name()))
+                        user.getUsername(),
+                        user.getPassword(),
+                        user.getRoles()
                 )).orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
     }
 }

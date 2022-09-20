@@ -7,7 +7,7 @@
                     <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
                     <li><a href="/catalog" class="nav-link px-2 text-white">Каталог</a></li>
                     <li><a href="/book/random" class="nav-link px-2 text-white">Мне повезёт</a></li>
-                    <li><a href="/admin" class="nav-link px-2 text-white">Панель администратора</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin" class="nav-link px-2 text-white">Панель администратора</a></li>
                 </ul>
 
 
@@ -22,9 +22,9 @@
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
                         <nav class="navbar justify-content-center bg-light px-2">
                             <img th:src="@{/images/ava.png}" alt="mdo" width="32" height="32" class="rounded-circle">
-                            <div th:text="${user.userName}">Title</div>
+                            <div th:text="${user.username}">Login</div>
                         </nav>
-                        <li><a class="dropdown-item" href="#">Закладки</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/bookmark}">Закладки</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <form sec:authorize="isAuthenticated()"  th:action="@{/logout}" method="post">
                             <div class="d-grid gap-2 col-6 mx-auto">

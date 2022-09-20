@@ -93,12 +93,14 @@ public class BookService {
         log.warn("Book with title: {}; id: {} is delete", book.getTitle(), id);
     }
 
+    @Transactional
     public Book deleteAuthor(Book book, Long authorId){
         Author author = book.getAuthors().stream().filter(a -> a.getAuthorId().equals(authorId)).findFirst().orElseThrow(() -> new AuthorNotFoundException(authorId));
         book.deleteAuthor(author);
         return book;
     }
 
+    @Transactional
     public Book deleteGenre(Book book, Long genreId) {
         Genre genre = book.getGenres().stream().filter(a -> a.getGenreId().equals(genreId)).findFirst().orElseThrow(() -> new GenreNotFoundException(genreId));
         book.deleteGenre(genre);

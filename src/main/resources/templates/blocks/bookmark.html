@@ -1,0 +1,15 @@
+<div th:fragment="bookmark">
+    <div class="dropdown">
+    <button class="btn btn-secondary mx-auto d-block dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        В закладки
+    </button>
+<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+    <form>
+    <li><a class="dropdown-item disabled" href="#">Читаю</a></li>
+    <li><button class="dropdown-item" th:href="@{'/user/bookmark/1'}">Буду читать</button></li>
+    <li><a class="dropdown-item" href="#">Прочитано</a></li>
+    <li><a class="dropdown-item" href="#">Брошено</a></li>
+    </form>
+</ul>
+    </div>
+</div>

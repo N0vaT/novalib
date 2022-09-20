@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>NovaLib - каталог</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"  th:href="@{/css/bootstrap.min.css}">
+    <style>
+    .card-img-top {
+        width: 90%;
+        height: 13vw;
+        object-fit: cover;
+    }
+    .media-info-list{
+        background-color: #397DD5;
+        color: #ffff;
+    }
+    .scrollClass {
+        height:350px;
+        overflow-y: scroll;
+    }
+    </style>
+</head>
+<body>
+
+<header th:insert="blocks/header" ::header></header>
+
+<div class="container-xxl">
+
+    <div class="text-center display-3">Закладки</div>
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a th:if="${bookPage.type == 1}" class="nav-link active" aria-current="page" th:href="@{'?type=1'}" th:text="'Читаю ' + ${userBookmarks.get(0).books.size()}">Читаю</a>
+            <a th:if="${bookPage.type != 1}" class="nav-link" aria-current="page" th:href="@{'?type=1'}" th:text="'Читаю ' + ${userBookmarks.get(0).books.size()}">Читаю</a>
+        </li>
+        <li class="nav-item">
+            <a th:if="${bookPage.type == 2}" class="nav-link active" th:href="@{'?type=2'}" th:text="'Буду читать ' + ${userBookmarks.get(1).books.size()}">Буду читать</a>
+            <a th:if="${bookPage.type != 2}" class="nav-link" th:href="@{'?type=2'}" th:text="'Буду читать ' + ${userBookmarks.get(1).books.size()}">Буду читать</a>
+        </li>
+        <li class="nav-item">
+            <a th:if="${bookPage.type == 3}" class="nav-link active" th:href="@{'?type=3'}" th:text="'Прочитано ' + ${userBookmarks.get(2).books.size()}">Прочитано</a>
+            <a th:if="${bookPage.type != 3}" class="nav-link" th:href="@{'?type=3'}" th:text="'Прочитано ' + ${userBookmarks.get(2).books.size()}">Прочитано</a>
+        </li>
+        <li class="nav-item">
+            <a th:if="${bookPage.type == 4}" class="nav-link active" th:href="@{'?type=4'}" th:text="'Брошено ' + ${userBookmarks.get(3).books.size()}">Брошено</a>
+            <a th:if="${bookPage.type != 4}" class="nav-link" th:href="@{'?type=4'}" th:text="'Брошено ' + ${userBookmarks.get(3).books.size()}">Брошено</a>
+        </li>
+        <li class="nav-item">
+            <a th:if="${bookPage.type == 5}" class="nav-link active" th:href="@{'?type=5'}" th:text="'Не интересно ' + ${userBookmarks.get(4).books.size()}">Не интересно</a>
+            <a th:if="${bookPage.type != 5}" class="nav-link" th:href="@{'?type=5'}" th:text="'Не интересно ' + ${userBookmarks.get(4).books.size()}">Не интересно</a>
+        </li>
+    </ul>
+    <div class="row ">
+        <nav class="navbar navbar-expand-lg bg-light p-1 px-2">
+
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Сортировка по:</button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/catalog/rating">По рейтингу</a></li>
+                <li><a class="dropdown-item" href="/catalog/title">По названию</a></li>
+                <li><a class="dropdown-item" href="/catalog/year">По году издания</a></li>
+                <li><a class="dropdown-item" href="/catalog/date">По дате добавления</a></li>
+                <li><a class="dropdown-item" href="#">По кол-ву глав</a></li>
+            </ul>
+            <form th:method="post" th:action="@{/catalog/revers}" id="revers">
+                <button type="submit" class="btn btn-outline-secondary" form="revers">
+                    <svg width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"></path>
+                    </svg>
+                </button>
+            </form>
+        </nav>
+    <div class="col-2 border text-center shadow" th:each="book: ${books.page}">
+        <nav class="navbar bg-light justify-content-end p-1 px-1">
+            <div th:insert="blocks/bookmark"></div>
+            <img th:src="@{/images/icon_star.png}" class=" d-block" width="16px" height="16px">
+            <div th:text="${book.rating}">Rating</div>
+        </nav>
+        <img th:src="@{/posters/{name}(name=${book.posterName})}" class="card-img-top mx-auto d-block" width="175px" height="238px">
+        <a class="list-group-item-action" th:href="@{'/book/' + ${book.id}}" th:text="${book.title}">Title</a>
+    </div>
+
+    <nav aria-label="Page navigation" class="paging">
+        <ul class="pagination" th:if="${books.page.totalPages > 1}">
+            <li class="page-item" th:classappend="${!books.paging.isPrevEnabled()? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/catalog?pageNumber=' + ${books.paging.pageNumber - 1}}"
+                   tabindex="-1">Previous</a>
+            </li>
+            <th:block th:each="item : ${books.paging.getItems()}">
+                <li class="page-item" th:classappend="${item.index == books.paging.pageNumber? 'active' : ''}"
+                    th:if="${item.pageItemType.name() == 'PAGE'}">
+                    <a class="page-link" th:href="@{'/catalog?pageNumber=' + ${item.index}}"
+                       th:text="${item.index}"></a>
+                </li>
+                <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            </th:block>
+            <li class="page-item" th:classappend="${!books.paging.isNextEnabled()? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/catalog?pageNumber=' + ${books.paging.pageNumber + 1}}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+</div>
+
+<footer th:insert="blocks/footer"></footer>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

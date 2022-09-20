@@ -31,7 +31,19 @@
     <div class="row">
         <div class="col-3">
             <div class="media-info-list-fix">
-                <nav class="navbar bg-light justify-content-end p-1 px-1">
+                <nav class="navbar bg-light justify-content-center bg-light px-2">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary mx-auto d-block dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Добавить в закладки
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                            <li><a class="dropdown-item disabled" th:href="@{'/user/bookmark/add/' + ${book.id} + '/1'}">Читаю</a></li>
+                            <li><a class="dropdown-item" th:href="@{'/user/bookmark/add/' + ${book.id} + '/2'}">Буду читать</a></li>
+                            <li><a class="dropdown-item" th:href="@{'/user/bookmark/add/' + ${book.id} + '/3'}">Прочитано</a></li>
+                            <li><a class="dropdown-item" th:href="@{'/user/bookmark/add/' + ${book.id} + '/4'}">Брошено</a></li>
+                            <li><a class="dropdown-item" th:href="@{'/user/bookmark/add/' + ${book.id} + '/5'}">Не интересно</a></li>
+                        </ul>
+                    </div>
                     <img th:src="@{/images/icon_star.png}" class=" d-block" width="16px" height="16px">
                     <div th:text="${book.rating}">Rating</div>
                 </nav>
@@ -118,7 +130,7 @@
             <div th:insert="blocks/paginationChapters"></div>
         <form id="deleteBook" th:method="delete" th:action="@{'/book/' + ${book.id}}">
         </form>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a th:href="@{'/book/edit/' + ${book.id}}" class="btn btn-outline-success" role="button">Редактировать книгу</a>
             <button type="submit" class="btn btn-outline-danger" form="deleteBook">Удалить книгу</button>
         </div>

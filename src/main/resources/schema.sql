@@ -1,4 +1,8 @@
+DROP TABLE IF EXISTS nl_book_bookmark;
+DROP TABLE IF EXISTS nl_bookmark;
+DROP TABLE IF EXISTS nl_users_role;
 DROP TABLE IF EXISTS nl_users;
+DROP TABLE IF EXISTS nl_role;
 DROP TABLE IF EXISTS nl_chapters;
 DROP TABLE IF EXISTS nl_book_genre;
 DROP TABLE IF EXISTS nl_book_author;
@@ -63,14 +67,51 @@ CREATE TABLE IF NOT EXISTS nl_chapters
     FOREIGN KEY (book_id) REFERENCES nl_book (book_id)
 );
 
+CREATE INDEX chapter_book_idx ON nl_chapters (book_id);
+
+CREATE TABLE IF NOT EXISTS nl_role
+(
+    role_id serial,
+    role_name varchar(20) UNIQUE not null,
+    PRIMARY KEY (role_id)
+);
+
 CREATE TABLE IF NOT EXISTS nl_users
 (
     user_id serial,
     user_name varchar(20) UNIQUE not null,
     user_password varchar(100) not null,
-    user_role varchar(10) not null,
     user_created date not null,
     PRIMARY KEY (user_id)
 );
 
-CREATE INDEX chapter_book_idx ON nl_chapters (book_id);
+CREATE TABLE nl_users_role (
+    user_id integer NOT NULL,
+    role_id integer NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES nl_users (user_id),
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES nl_role (role_id)
+);
+
+CREATE TABLE IF NOT EXISTS nl_bookmark
+(
+    bookmark_id serial,
+    bookmark_name varchar(20) not null,
+    bookmark_type varchar(20) not null,
+    user_id integer not null,
+    PRIMARY KEY (bookmark_id),
+    FOREIGN KEY (user_id) REFERENCES nl_users (user_id)
+);
+
+CREATE TABLE IF NOT EXISTS nl_book_bookmark
+(
+    book_id integer not null,
+    bookmark_id integer not null,
+    PRIMARY KeY (book_id, bookmark_id),
+    CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES nl_book (book_id),
+    CONSTRAINT fk_bookmark FOREIGN KEY (bookmark_id) REFERENCES nl_bookmark (bookmark_id)
+);
+
+
+
+

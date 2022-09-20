@@ -97,6 +97,7 @@
 
         <div class="col-2 border text-center shadow" th:each="book: ${books.page}">
             <nav class="navbar bg-light justify-content-end p-1 px-1">
+                <div th:insert="blocks/bookmark"></div>
                 <img th:src="@{/images/icon_star.png}" class=" d-block" width="16px" height="16px">
                 <div th:text="${book.rating}">Rating</div>
             </nav>

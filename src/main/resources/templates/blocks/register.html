@@ -4,8 +4,8 @@
             <div class="modal-body">
                 <div class="row text-dark gy-2 px-3">
                 <form th:action="@{/register}" th:method="post" th:object="${userDto}">
-
                         <p class="modal-title">Регистрация</p>
+                    <div class="row gy-2 px-3">
                         <input type="text" class="form-control" th:field="*{userName}" placeholder="Введите логин">
                         <small class="form-text text-danger" th:each="err : ${#fields.errors('userName')}" th:if="${param.error != null}" th:text="${err}">Validation error</small>
                         <input type="password" class="form-control" th:field="*{userPassword}" placeholder="Введите пароль">
@@ -13,7 +13,7 @@
                         <input type="password" class="form-control" th:field="*{repeatUserPassword}" placeholder="Повторите пароль">
                         <small class="form-text text-danger" th:if="${param.error != null}" th:text="${err}">Validation error</small>
                         <button type="submit" class="btn btn-primary" data-bs-toggle="modal">Зарегестрироваться</button>
-
+                    </div>
                 </form>
                 </div>
             </div>

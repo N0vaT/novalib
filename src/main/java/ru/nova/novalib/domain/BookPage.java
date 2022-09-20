@@ -14,6 +14,7 @@ public class BookPage {
     private Sort.Direction sortDirection = Sort.Direction.ASC;
     private String sortBy = "id";
     private String search;
+    private int type = 1;
     private Set<Long> genreSet = new HashSet<>();
 
     public void addGenre(Long genreId){
