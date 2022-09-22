@@ -1,15 +1,19 @@
 <div th:fragment="bookmark">
-    <div class="dropdown">
-    <button class="btn btn-secondary mx-auto d-block dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        В закладки
-    </button>
-<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-    <form>
-    <li><a class="dropdown-item disabled" href="#">Читаю</a></li>
-    <li><button class="dropdown-item" th:href="@{'/user/bookmark/1'}">Буду читать</button></li>
-    <li><a class="dropdown-item" href="#">Прочитано</a></li>
-    <li><a class="dropdown-item" href="#">Брошено</a></li>
-    </form>
-</ul>
+    <div sec:authorize="isAuthenticated()" class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <div th:if="${reading.contains(book.id)}" class="text-bg-info mx-auto d-block btn-sm">
+        Читаю
+    </div>
+        <div th:if="${will.contains(book.id)}" class="text-bg-info mx-auto d-block btn-sm">
+            Буду читать
+        </div>
+        <div th:if="${finished.contains(book.id)}" class="text-bg-info mx-auto d-block btn-sm">
+            Прочитано
+        </div>
+        <div th:if="${stopped.contains(book.id)}" class="text-bg-info mx-auto d-block btn-sm">
+            Брошено
+        </div>
+        <div th:if="${not_interesting.contains(book.id)}" class="text-bg-info mx-auto d-block btn-sm">
+            Не интересно
+        </div>
     </div>
 </div>

@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.BookPage;
-import ru.nova.novalib.domain.Bookmark;
 import ru.nova.novalib.domain.User;
 import ru.nova.novalib.domain.dto.UserDto;
 import ru.nova.novalib.service.BookService;
@@ -14,11 +13,12 @@ import ru.nova.novalib.service.BookmarkService;
 import ru.nova.novalib.service.UserService;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
 @RequestMapping("/user/bookmark")
-@SessionAttributes({"bookPage", "books"})
+@SessionAttributes({"bookPage", "user", "books"})
 public class BookmarkController {
 
         private final BookService bookService;
@@ -37,103 +37,74 @@ public class BookmarkController {
     }
 
         @GetMapping()
-        public String getBookmark(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                 @RequestParam(value = "size", required = false, defaultValue = "18") int size,
-                                 @RequestParam(value = "type", required = false, defaultValue = "1") int type,
+        public String getBookmark(@RequestParam(value = "type", required = false, defaultValue = "1") int type,
                                  BookPage bookPage, Model model, Principal principal){
             if(bookPage==null) bookPage = new BookPage();
-            bookPage.setType(type);
+            if(type!=1) bookPage.setType(type);
             model.addAttribute("bookPage", bookPage);
             if (principal != null) {
                 User user = userService.findByLogin(principal.getName());
                 model.addAttribute("user", user);
                 model.addAttribute("userBookmarks", user.getUserBookmarks());
-                model.addAttribute("books", bookmarkService.getBookmarkPage(user, pageNumber, size, bookPage));
-                for(Bookmark.Type t: Bookmark.Type.values()){
-                    Bookmark byUserAndType = bookmarkService.findByUserAndType(user, type);
-                    if(byUserAndType==null){
-                        model.addAttribute(t.toString().toLowerCase(), user.getUserBookmarks());
-                    }else {
-                        model.addAttribute(t.toString().toLowerCase(), byUserAndType);
-                    }
-                }
+                model.addAttribute("books", bookmarkService.getBookmarkPage(user, bookPage));
             }
             return "bookmark";
         }
 
         @GetMapping("/rating")
-        public String getCatalogRating(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                       @RequestParam(value = "size", required = false, defaultValue = "18") int size,
-                                       BookPage bookPage, Model model){
+        public String getByRating(BookPage bookPage){
             bookPage.setSortBy("rating");
-            bookPage.setSortDirection(Sort.Direction.DESC);
-            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-            return "redirect:/catalog";
+            bookPage.setSortDirection(Sort.Direction.DESC);;
+            return "redirect:/user/bookmark";
         }
         @GetMapping("/title")
-        public String getCatalogTitle(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                      @RequestParam(value = "size", required = false, defaultValue = "18") int size,
-                                      BookPage bookPage, Model model){
+        public String getByTitle(BookPage bookPage){
             bookPage.setSortBy("title");
             bookPage.setSortDirection(Sort.Direction.ASC);
-            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-            return "redirect:/catalog";
+            return "redirect:/user/bookmark";
         }
         @GetMapping("/year")
-        public String getCatalogYearPublished(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                              @RequestParam(value = "size", required = false, defaultValue = "18") int size,
-                                              BookPage bookPage, Model model){
+        public String getByYearPublished(BookPage bookPage){
             bookPage.setSortBy("yearPublished");
             bookPage.setSortDirection(Sort.Direction.ASC);
-            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-            return "redirect:/catalog";
+            return "redirect:/user/bookmark";
         }
         @GetMapping("/date")
-        public String getCatalogDate(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                     @RequestParam(value = "size", required = false, defaultValue = "18") int size,
-                                     BookPage bookPage, Model model){
+        public String getByDate(BookPage bookPage){
             bookPage.setSortBy("id");
             bookPage.setSortDirection(Sort.Direction.ASC);
-            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-            return "redirect:/catalog";
+            return "redirect:/user/bookmark";
         }
+    @GetMapping("/chapters")
+    public String getByChapters(BookPage bookPage){
+        bookPage.setSortBy("chapters");
+        bookPage.setSortDirection(Sort.Direction.ASC);
+        return "redirect:/user/bookmark";
+    }
 
-        @PostMapping("/revers")
-        public String revers(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                             @RequestParam(value = "size", required = false, defaultValue = "18") int size,
-                             BookPage bookPage, Model model){
-            Sort.Direction sortDirection = bookPage.getSortDirection();
-            bookPage.setSortDirection(
-                    sortDirection==Sort.Direction.DESC?
-                            Sort.Direction.ASC : Sort.Direction.DESC);
-            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-            return "bookCatalog";
-        }
-
-        @GetMapping("/search")
-        public String getSearch(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                @RequestParam(value = "size", required = false, defaultValue = "18") int size,
-                                BookPage bookPage, Model model, String keyword){
-            if(keyword!=null) {
-                bookPage.setSearch(keyword);
-                bookPage.setSortBy("title");
-                bookPage.setSortDirection(Sort.Direction.ASC);
-                model.addAttribute("bookPage", bookPage);
-                model.addAttribute("books", bookService.getByKeyword(pageNumber, size, bookPage));
-            }else {
-                bookPage.setSortBy("title");
-                bookPage.setSortDirection(Sort.Direction.ASC);
-                model.addAttribute("bookPage", bookPage);
-                model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
+        @PostMapping()
+        public String revers(@RequestParam(value = "type", required = false, defaultValue = "1") int type,
+                             BookPage bookPage, Model model, Principal principal){
+            if(bookPage==null) bookPage = new BookPage();
+            if(type!=1) bookPage.setType(type);
+            model.addAttribute("bookPage", bookPage);
+            if (principal != null) {
+                User user = userService.findByLogin(principal.getName());
+                model.addAttribute("user", user);
+                model.addAttribute("userBookmarks", user.getUserBookmarks());
+                List<Book> bookmarkPage = (List<Book>) model.getAttribute("books");
+                if(bookmarkPage!=null) {
+                    Collections.reverse(bookmarkPage);
+                    model.addAttribute("books", bookmarkPage);
+                }
             }
-            return "bookCatalog";
+            return "bookmark";
         }
 
     @GetMapping("/add/{bookId}/{type}")
-    public String addBook(@PathVariable(name = "bookId") long bookId, @PathVariable(name = "type") int type, Book book, Principal principal){
+    public String addBook(@PathVariable(name = "bookId") long bookId, @PathVariable(name = "type") int type, Principal principal){
         User user = userService.findByLogin(principal.getName());
-        user.getUserBookmarks().get(type-1).addBook(bookService.findById(bookId));
-        userService.save(user);
+        bookmarkService.saveBookInBookmark(user, type, bookId);
         return "redirect:/book/" + bookId;
     }
 

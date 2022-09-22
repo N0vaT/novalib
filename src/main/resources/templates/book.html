@@ -32,17 +32,22 @@
         <div class="col-3">
             <div class="media-info-list-fix">
                 <nav class="navbar bg-light justify-content-center bg-light px-2">
-                    <div class="dropdown">
+                    <div sec:authorize="isAuthenticated()" class="dropdown">
                         <button class="btn btn-secondary mx-auto d-block dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Добавить в закладки
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                            <li><a class="dropdown-item disabled" th:href="@{'/user/bookmark/add/' + ${book.id} + '/1'}">Читаю</a></li>
+                            <li><a class="dropdown-item" th:href="@{'/user/bookmark/add/' + ${book.id} + '/1'}">Читаю</a></li>
                             <li><a class="dropdown-item" th:href="@{'/user/bookmark/add/' + ${book.id} + '/2'}">Буду читать</a></li>
                             <li><a class="dropdown-item" th:href="@{'/user/bookmark/add/' + ${book.id} + '/3'}">Прочитано</a></li>
                             <li><a class="dropdown-item" th:href="@{'/user/bookmark/add/' + ${book.id} + '/4'}">Брошено</a></li>
                             <li><a class="dropdown-item" th:href="@{'/user/bookmark/add/' + ${book.id} + '/5'}">Не интересно</a></li>
                         </ul>
+                    </div>
+                    <div sec:authorize="isAnonymous()" class="dropdown">
+                        <button type="button" class="btn btn-secondary mx-auto d-block dropdown-toggle btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Добавить в закладки
+                        </button>
                     </div>
                     <img th:src="@{/images/icon_star.png}" class=" d-block" width="16px" height="16px">
                     <div th:text="${book.rating}">Rating</div>
@@ -63,6 +68,11 @@
                     <div th:value="${oneAuthor.authorId}" th:text="${oneAuthor.authorName}">Author</div>
                 </div>
             </div>
+
+                <div class="row px-2">
+                    <div class="media-info-list_title">Колличество глав:</div>
+                    <div th:text="${book.chapters.size()}">Chapters</div>
+                </div>
 
             <div class="row px-2">
                 <div class="media-info-list_title">Жанр:</div>

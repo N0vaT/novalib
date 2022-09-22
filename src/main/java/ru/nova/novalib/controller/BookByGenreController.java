@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.BookPage;
+import ru.nova.novalib.domain.Bookmark;
+import ru.nova.novalib.domain.User;
 import ru.nova.novalib.domain.dto.UserDto;
 import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.service.BookService;
@@ -14,6 +16,7 @@ import ru.nova.novalib.service.GenreService;
 import ru.nova.novalib.service.UserService;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/catalog/byGenre")
@@ -35,7 +38,15 @@ public class BookByGenreController {
         model.addAttribute("genres", genreService.findAll());
         model.addAttribute("userDto", new UserDto());
         if(principal!=null) {
-            model.addAttribute("user", userService.findByLogin(principal.getName()));
+            User user = userService.findByLogin(principal.getName());
+            model.addAttribute("user", user);
+            for(Bookmark.Type type: Bookmark.Type.values()){
+                // Добавляю Map<Bookmark.Type, List<Long>>
+                List<Long> bookIdList = user.getUserBookmarks().stream()
+                        .filter(bookmark -> bookmark.getType() == type).findFirst().get().getBooks()
+                        .stream().map(book -> book.getId()).toList();
+                model.addAttribute(type.toString().toLowerCase(), bookIdList);
+            }
         }
     }
 

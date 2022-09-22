@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.nova.novalib.domain.Book;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.nova.novalib.domain.BookPage;
 import ru.nova.novalib.domain.Bookmark;
 import ru.nova.novalib.domain.User;
@@ -16,23 +16,21 @@ import ru.nova.novalib.service.UserService;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Stream;
-
 
 @Controller
-@RequestMapping("/")
-public class HomeController {
+@RequestMapping("/search")
+public class BookSearchController {
 
     private final BookService bookService;
     private final UserService userService;
 
-    public HomeController(BookService bookService, UserService userService) {
+    public BookSearchController(BookService bookService, UserService userService) {
         this.bookService = bookService;
         this.userService = userService;
     }
 
     @ModelAttribute
-    public void addGenresToModel(Model model, Principal principal) {
+    public void addGenresToModel(Model model, Principal principal){
         model.addAttribute("userDto", new UserDto());
         if(principal!=null) {
             User user = userService.findByLogin(principal.getName());
@@ -47,15 +45,24 @@ public class HomeController {
         }
     }
 
-    @GetMapping
-    public String index(Model model){
-        BookPage b1 = new BookPage();
-        b1.setSortDirection(Sort.Direction.DESC);
-        b1.setSortBy("rating");
-        model.addAttribute("ratingList", bookService.getPage(1, 6, b1));
-        BookPage b2 = new BookPage();
-        b2.setSortDirection(Sort.Direction.DESC);
-        model.addAttribute("dateList", bookService.getPage(1, 6, b2));
-        return "index";
+    @GetMapping()
+    public String getSearch(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                            @RequestParam(value = "size", required = false, defaultValue = "24") int size,
+                            BookPage bookPage, Model model, String keyword){
+        if(keyword!=null) {
+            bookPage.setSearch(keyword);
+            bookPage.setSortBy("title");
+            bookPage.setSortDirection(Sort.Direction.ASC);
+            model.addAttribute("bookPage", bookPage);
+            model.addAttribute("books", bookService.getByKeyword(pageNumber, size, bookPage));
+        }else {
+            bookPage.setSortBy("title");
+            bookPage.setSortDirection(Sort.Direction.ASC);
+            model.addAttribute("bookPage", bookPage);
+            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
+        }
+        return "search";
     }
+
+
 }

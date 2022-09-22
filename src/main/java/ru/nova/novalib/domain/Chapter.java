@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"chapterId"})
 @NoArgsConstructor
 @Entity
 @Table(name = "nl_chapters")

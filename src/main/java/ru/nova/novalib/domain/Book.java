@@ -7,7 +7,7 @@ import java.util.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
 @Entity
 @Table(name = "nl_book")

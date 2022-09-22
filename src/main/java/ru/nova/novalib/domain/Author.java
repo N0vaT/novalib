@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"authorId"})
 @NoArgsConstructor
 @Entity
 @Table(name = "nl_author")

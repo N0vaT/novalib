@@ -11,6 +11,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor()
+@EqualsAndHashCode(of = {"userId"})
 @Entity
 @Table(name = "nl_users")
 public class User implements UserDetails {

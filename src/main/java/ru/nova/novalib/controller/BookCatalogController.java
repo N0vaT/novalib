@@ -1,18 +1,19 @@
 package ru.nova.novalib.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 import ru.nova.novalib.domain.BookPage;
+import ru.nova.novalib.domain.Bookmark;
+import ru.nova.novalib.domain.User;
 import ru.nova.novalib.domain.dto.UserDto;
 import ru.nova.novalib.service.BookService;
 import ru.nova.novalib.service.GenreService;
 import ru.nova.novalib.service.UserService;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/catalog")
@@ -34,14 +35,22 @@ public class BookCatalogController {
         model.addAttribute("genres", genreService.findAll());
         model.addAttribute("userDto", new UserDto());
         if(principal!=null) {
-            model.addAttribute("user", userService.findByLogin(principal.getName()));
+            User user = userService.findByLogin(principal.getName());
+            model.addAttribute("user", user);
+            for(Bookmark.Type type: Bookmark.Type.values()){
+                // Добавляю Map<Bookmark.Type, List<Long>>
+                List<Long> bookIdList = user.getUserBookmarks().stream()
+                        .filter(bookmark -> bookmark.getType() == type).findFirst().get().getBooks()
+                        .stream().map(book -> book.getId()).toList();
+                model.addAttribute(type.toString().toLowerCase(), bookIdList);
+            }
         }
     }
 
     @GetMapping()
     public String getCatalog(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
                              @RequestParam(value = "size", required = false, defaultValue = "18") int size,
-                             BookPage bookPage, Model model, SessionStatus sessionStatus){
+                             BookPage bookPage, Model model){
         if(bookPage==null) bookPage = new BookPage();
         model.addAttribute("bookPage", bookPage);
         model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
@@ -101,26 +110,6 @@ public class BookCatalogController {
                         Sort.Direction.ASC : Sort.Direction.DESC);
         model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
         model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        return "bookCatalog";
-    }
-
-    @GetMapping("/search")
-    public String getSearch(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                 @RequestParam(value = "size", required = false, defaultValue = "18") int size,
-                                 BookPage bookPage, Model model, String keyword){
-        if(keyword!=null) {
-            bookPage.setSearch(keyword);
-            bookPage.setSortBy("title");
-            bookPage.setSortDirection(Sort.Direction.ASC);
-            model.addAttribute("bookPage", bookPage);
-            model.addAttribute("genresOn", genreService.findBySetId(bookPage.getGenreSet()));
-            model.addAttribute("books", bookService.getByKeyword(pageNumber, size, bookPage));
-        }else {
-            bookPage.setSortBy("title");
-            bookPage.setSortDirection(Sort.Direction.ASC);
-            model.addAttribute("bookPage", bookPage);
-            model.addAttribute("books", bookService.getPage(pageNumber, size, bookPage));
-        }
         return "bookCatalog";
     }
 
