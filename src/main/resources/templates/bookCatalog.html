@@ -67,13 +67,12 @@
 
         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Сортировка по:</button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/catalog/rating">По рейтингу</a></li>
-            <li><a class="dropdown-item" href="/catalog/title">По названию</a></li>
-            <li><a class="dropdown-item" href="/catalog/year">По году издания</a></li>
-            <li><a class="dropdown-item" href="/catalog/date">По дате добавления</a></li>
-            <li><a class="dropdown-item" href="#">По кол-ву глав</a></li>
+            <li><a class="dropdown-item" th:href="@{/catalog/rating}">По рейтингу</a></li>
+            <li><a class="dropdown-item" th:href="@{/catalog/title}">По названию</a></li>
+            <li><a class="dropdown-item" th:href="@{/catalog/year}">По году издания</a></li>
+            <li><a class="dropdown-item" th:href="@{/catalog/date}">По дате добавления</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/book/random">Мне повезет</a></li>
+            <li><a class="dropdown-item" th:href="@{/book/random}">Мне повезет</a></li>
         </ul>
         <form th:method="post" th:action="@{/catalog/revers}" id="revers">
                 <button type="submit" class="btn btn-outline-secondary" form="revers">
@@ -106,7 +105,7 @@
         <ul class="pagination" th:if="${books.page.totalPages > 1}">
             <li class="page-item" th:classappend="${!books.paging.isPrevEnabled()? 'disabled' : ''}">
                 <a class="page-link" th:href="@{'/catalog?pageNumber=' + ${books.paging.pageNumber - 1}}"
-                   tabindex="-1">Previous</a>
+                   tabindex="-1">Предыдущая</a>
             </li>
             <th:block th:each="item : ${books.paging.getItems()}">
                 <li class="page-item" th:classappend="${item.index == books.paging.pageNumber? 'active' : ''}"
@@ -119,7 +118,7 @@
                 </li>
             </th:block>
             <li class="page-item" th:classappend="${!books.paging.isNextEnabled()? 'disabled' : ''}">
-                <a class="page-link" th:href="@{'/catalog?pageNumber=' + ${books.paging.pageNumber + 1}}">Next</a>
+                <a class="page-link" th:href="@{'/catalog?pageNumber=' + ${books.paging.pageNumber + 1}}">Следующая страница</a>
             </li>
         </ul>
     </nav>
@@ -129,6 +128,6 @@
 
 <header th:insert="blocks/footer" ::footer></header>
 
-<script src="/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

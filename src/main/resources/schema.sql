@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS nl_book_bookmark;
 DROP TABLE IF EXISTS nl_bookmark;
+DROP TABLE IF EXISTS nl_book_bookmark;
 DROP TABLE IF EXISTS nl_users_role;
 DROP TABLE IF EXISTS nl_users;
 DROP TABLE IF EXISTS nl_role;

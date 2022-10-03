@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .antMatchers("/", "/**").permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/")
+                .loginPage("/#logModal")
                 .loginProcessingUrl("/authenticateTheUser")
                 .and()
                 .logout()

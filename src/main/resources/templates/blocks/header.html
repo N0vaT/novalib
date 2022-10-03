@@ -1,13 +1,13 @@
 <div th:fragment="header">
     <header class="p-3 bg-dark text-white">
-        <div class="container">
+        <div class="container-fluid">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
-                    <li><a href="/catalog" class="nav-link px-2 text-white">Каталог</a></li>
-                    <li><a href="/book/random" class="nav-link px-2 text-white">Мне повезёт</a></li>
-                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin" class="nav-link px-2 text-white">Панель администратора</a></li>
+                    <li><a th:href="@{/}" class="nav-link px-2 text-white">Главная</a></li>
+                    <li><a th:href="@{/catalog}" class="nav-link px-2 text-white">Каталог</a></li>
+                    <li><a th:href="@{/book/random}" class="nav-link px-2 text-white">Мне повезёт</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin}" class="nav-link px-2 text-white">Панель администратора</a></li>
                 </ul>
 
 
@@ -35,15 +35,13 @@
                 </div>
 
                 <div sec:authorize="isAnonymous()">
-                    <button type="button" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-outline-light me-2" data-bs-toggle="modal" id="btnLogModal" data-bs-target="#modalLogin">
                         Войти
                     </button>
                 </div>
 
                 <div th:insert="blocks/login"></div>
                 <div th:insert="blocks/register"></div>
-
-
             </div>
         </div>
     </header>

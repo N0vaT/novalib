@@ -17,45 +17,77 @@
 </head>
 <body>
 
-<header th:insert="blocks/header" ::header></header>
+<div class="media-info-list-fix">
+    <nav class="navbar navbar-dark bg-dark p-1 px-2">
+        <ul class="nav">
+            <a th:href="@{/}" class="nav-link px-2 text-white me-2" >Главная</a>
+            <a th:href="@{'/book/' + ${book.id}}" class="nav-link px-2 text-white" th:text="${book.title}">Тайтл</a>
+        </ul>
 
-<div class="container-xxl">
-    <div class="text-center display-3" th:text="${book.title}">Title</div>
-    <div class="media-info-list-fix p-2 ">
+            <ul class="nav justify-content-center">
+                <li th:if="${previousId!=null}" class="nav-item">
+                    <a type="button" class="btn btn-secondary me-1" th:href="@{'/book/' + ${book.id} + '/' + ${previousId}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>
+                    </a>
+                </li>
+                <li th:if="${previousId == null}" class="nav-item">
+                    <a type="button" class="btn btn-secondary me-1 disabled" th:href="@{'/book/' + ${book.id} + '/' + ${previousId}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                        </svg>
+                    </a>
+                </li>
 
-                <ul class="pagination justify-content-center">
-                    <li th:if="${previousId!=null}" class="page-item">
-                        <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${previousId}}">Предыдущая</a>
-                    </li>
-                    <li th:if="${previousId == null}" class="page-item disabled">
-                        <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Предыдущая</a>
-                    </li>
-                    <li class="page-item">
-                        <p>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            Список всех глав
-                        </button>
-                        </p>
-                    </li>
-                    <li th:if="${nextId!=null}" class="page-item">
-                        <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая</a>
-                    </li>
-                    <li th:if="${nextId == null}" class="page-item disabled">
-                        <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая</a>
-                    </li>
-                </ul>
+                <li class="page-item">
+                    <button type="button" class="btn btn-outline-light me-1" data-bs-toggle="modal" id="btnChapModal" data-bs-target="#modalChap">
+                        Главы
+                    </button>
+                </li>
 
+                <li th:if="${nextId!=null}" class="nav-item">
+                    <a type="button" class="btn btn-secondary" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"></path>
+                        </svg>
+                    </a>
+                </li>
+                <li th:if="${nextId == null}" class="nav-item">
+                    <a type="button" class="btn btn-secondary disabled" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"></path>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
 
-            <div class="collapse" id="collapseExample">
-
-                <div class="form-select scrollClass">
-                    <div th:each="oneChapter:${chaptersSort}">
-                        <div class="list-group-item list-group-item-action" th:href="@{'/book/' + ${book.id} + '/' + ${oneChapter.chapterId}}" th:text="${oneChapter.chapterName}">Chapters</div>
-                    </div>
+            <ul class="nav justify-content-end">
+                <div class="container">
+                <div class="btn-group dropstart" sec:authorize="isAuthenticated()">
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img th:src="@{/images/ava.png}" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
+                        <nav class="navbar justify-content-center bg-light px-2">
+                            <img th:src="@{/images/ava.png}" alt="mdo" width="32" height="32" class="rounded-circle">
+                            <div th:text="${user.username}">Login</div>
+                        </nav>
+                        <li><a class="dropdown-item" th:href="@{/user/bookmark}">Закладки</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <form sec:authorize="isAuthenticated()"  th:action="@{/logout}" method="post">
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button class="btn btn-outline-dark ">Выйти</button>
+                            </div>
+                        </form>
+                    </ul>
                 </div>
-            </div>
-
-    </div>
+                </div>
+            </ul>
+    </nav>
+</div>
+<div class="text-center display-5" th:text="${book.title}">Title</div>
+<div class="container-md">
     <div class="row shadow">
         <div>
         <p th:utext="${chapterPage.chapterText}"></p>
@@ -65,21 +97,21 @@
 
     <ul class="pagination justify-content-center">
         <li th:if="${previousId!=null}" class="page-item">
-            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${previousId}}">Предыдущая</a>
+            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${previousId}}">Предыдущая страница</a>
         </li>
         <li th:if="${previousId == null}" class="page-item disabled">
-            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Предыдущая</a>
+            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Предыдущая страница</a>
         </li>
         <li th:if="${nextId!=null}" class="page-item">
-            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая</a>
+            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая страница</a>
         </li>
         <li th:if="${nextId == null}" class="page-item disabled">
-            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая</a>
+            <a class="page-link" th:href="@{'/book/' + ${book.id} + '/' + ${nextId}}">Следующая страница</a>
         </li>
     </ul>
 
 <header th:insert="blocks/footer" ::footer></header>
 
-<script src="/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

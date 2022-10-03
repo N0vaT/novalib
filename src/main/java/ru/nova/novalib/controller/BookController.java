@@ -5,9 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.Chapter;
-import ru.nova.novalib.domain.User;
 import ru.nova.novalib.domain.dto.UserDto;
-import ru.nova.novalib.domain.paging.Paged;
 import ru.nova.novalib.service.BookService;
 import ru.nova.novalib.service.BookmarkService;
 import ru.nova.novalib.service.ChapterService;
@@ -23,14 +21,12 @@ public class BookController {
     private final BookService bookService;
     private final ChapterService chapterService;
     private final UserService userService;
-    private final BookmarkService bookmarkService;
 
 
     public BookController(BookService bookService, ChapterService chapterService, UserService userService, BookmarkService bookmarkService) {
         this.bookService = bookService;
         this.chapterService = chapterService;
         this.userService = userService;
-        this.bookmarkService = bookmarkService;
     }
 
     @ModelAttribute
@@ -47,12 +43,8 @@ public class BookController {
                                @RequestParam(value = "size", required = false, defaultValue = "100") int size,
                                Model model, Principal principal){
         Book book = bookService.findById(id);
-        if(book == null){
-            return "";
-        }
-        Paged<Chapter> page = chapterService.getPage(book, pageNumber, size);
-        model.addAttribute("firstChapter", chapterService.getFirst(book));
         model.addAttribute("chapters", chapterService.getPage(book, pageNumber, size));
+        model.addAttribute("firstChapter", chapterService.getFirst(book));
         model.addAttribute("book", book);
         return "book";
     }
@@ -60,9 +52,6 @@ public class BookController {
     @GetMapping("/{bookId}/{chapterId}")
     public String findChapterById(@PathVariable(name = "bookId") Long bookId, @PathVariable(name = "chapterId") Long chapterId, Model model){
         Book book = bookService.findById(bookId);
-        if(book == null){
-            return "";
-        }
         List<Chapter> chaptersPage = chapterService.getChaptersPage(book);
         Chapter chapterByChapterId = chapterService.getChapterByChapterId(chapterId);
         int index = chaptersPage.indexOf(chapterByChapterId);

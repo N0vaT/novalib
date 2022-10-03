@@ -45,7 +45,7 @@
                         </ul>
                     </div>
                     <div sec:authorize="isAnonymous()" class="dropdown">
-                        <button type="button" class="btn btn-secondary mx-auto d-block dropdown-toggle btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-secondary mx-auto d-block dropdown-toggle btn-sm" data-bs-toggle="modal" data-bs-target="#modalLogin">
                             Добавить в закладки
                         </button>
                     </div>
@@ -151,6 +151,6 @@
 
 <header th:insert="blocks/footer" ::footer></header>
 
-<script src="/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

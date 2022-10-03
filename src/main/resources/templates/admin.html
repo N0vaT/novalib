@@ -62,7 +62,7 @@
 
         <div class="col-9 border">
 
-                    <form method="post" enctype="multipart/form-data" id="bookLoud">
+                    <form th:method="post" th:action="@{/admin}" enctype="multipart/form-data" id="bookLoud">
                         <div class="media-info-list p-2">
                             Загрузка новой книги (.ePub)
                         </div>
@@ -88,6 +88,6 @@
 </div>
 
 
-<script src="/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

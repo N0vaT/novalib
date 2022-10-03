@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.nova.novalib.domain.Book;
 import ru.nova.novalib.domain.BookPage;
 import ru.nova.novalib.domain.Bookmark;
 import ru.nova.novalib.domain.User;
@@ -16,7 +15,6 @@ import ru.nova.novalib.service.UserService;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Stream;
 
 
 @Controller
@@ -32,8 +30,8 @@ public class HomeController {
     }
 
     @ModelAttribute
-    public void addGenresToModel(Model model, Principal principal) {
-        model.addAttribute("userDto", new UserDto());
+    public void addGenresToModel(UserDto userDto, Model model, Principal principal) {
+        if(userDto==null) model.addAttribute("userDto", new UserDto());
         if(principal!=null) {
             User user = userService.findByLogin(principal.getName());
             model.addAttribute("user", user);
