@@ -8,6 +8,12 @@ Web-приложение для Книг:
 - Работа с системой контроля версий Git;
 - Создание домашнего сервера (ubuntu server 20.04, Tomcat 9.067, Postgresql, openjdk-17-jre);
 - Администрирование сервера.
+---
+## Database Diagram:
+![DB diagram](https://github.com/N0vaT/novalib/blob/master/NovalibDiagramDB.png)
+
+---
+## Interface screenshots:
 
 ![Screen_Novalib](https://github.com/N0vaT/novalib/blob/master/1.png)
 
